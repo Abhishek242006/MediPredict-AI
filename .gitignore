@@ -34,3 +34,7 @@ ENV/
 
 # Database (optional to ignore or keep local)
 # predictions.db
+
+# Executables
+cloudflared.exe
+*.exe

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: medipredict-ai
+    env: python
+    buildCommand: pip install -r requirements.txt && python train_model.py
+    startCommand: python app.py
+    envVars:
+      - key: PORT
+        value: 5000

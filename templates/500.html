@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}500 — System Error — MediPredict AI{% endblock %}
+{% block content %}
+<section class="error-section section-shell">
+  <div class="error-box">
+    <div class="error-code">500</div>
+    <h1>Internal Server Error</h1>
+    <p>An unexpected error occurred while processing the request. Please ensure the machine learning model is trained and try again.</p>
+    <div class="error-actions">
+      <a href="{{ url_for('home') }}" class="button button-primary">Back to Home</a>
+      <a href="{{ url_for('checker') }}" class="button button-outline">Open Symptom Checker</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

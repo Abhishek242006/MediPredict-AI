@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}MediPredict AI — Intelligent Symptom Analysis & Clinical Machine Learning{% endblock %}
+{% block content %}
+<section class="hero section-shell">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> ADVANCED HEALTHCARE DATA SCIENCE</div>
+    <h1>Predict patterns. <span>Understand symptoms.</span></h1>
+    <p class="hero-description">
+      An educational machine learning platform comparing Random Forest, Logistic Regression, and Decision Trees to analyze multi-symptom patterns with probability scoring, risk triage, and explainable insights.
+    </p>
+    
+    <div class="hero-actions">
+      <a class="button button-primary" href="{{ url_for('checker') }}">Launch Symptom Checker <span>→</span></a>
+      <a class="button button-outline" href="{{ url_for('analytics') }}">View Model Benchmarks <span>📊</span></a>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-number">16</span>
+        <span class="stat-label">Conditions Covered</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">24</span>
+        <span class="stat-label">Symptom Features</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">91.9%</span>
+        <span class="stat-label">Benchmark Accuracy</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number">{{ total_checks }}</span>
+        <span class="stat-label">Total Demo Runs</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="visual-card-glass">
+      <div class="glass-header">
+        <div class="glass-dots"><span></span><span></span><span></span></div>
+        <span class="glass-title">Inference Simulation</span>
+      </div>
+      <div class="glass-body">
+        <div class="glass-symptom-tags">
+          <span class="g-tag">♨ Fever</span>
+          <span class="g-tag">≋ Cough</span>
+          <span class="g-tag">👃 Loss of Smell</span>
+        </div>
+        <div class="glass-prediction">
+          <div class="g-pred-label">Primary Pattern Match</div>
+          <div class="g-pred-val">COVID-19 like illness</div>
+          <div class="g-pred-bar"><div class="g-pred-fill" style="width: 88%;"></div></div>
+          <div class="g-pred-meta"><span>Confidence: 88.4%</span><span class="badge-risk-mod">Moderate Risk</span></div>
+        </div>
+        <div class="glass-differential">
+          <div class="diff-title">Differential Probabilities:</div>
+          <div class="diff-item"><span>Flu-like illness</span><b>7.2%</b></div>
+          <div class="diff-item"><span>Acute Bronchitis</span><b>3.1%</b></div>
+        </div>
+      </div>
+      <div class="glass-footer">
+        <span>🔒 Zero personal data collected</span>
+        <a href="{{ url_for('about') }}">Learn How →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Clinical Safety Notice -->
+<section class="disclaimer-banner section-shell">
+  <div class="disclaimer-inner">
+    <span class="disclaimer-badge">SAFETY NOTICE</span>
+    <p>
+      <b>Academic & Educational Demonstration Only:</b> MediPredict AI is a prototype designed for computer science coursework, internship reports, and healthcare data science demonstrations. It is <strong>NOT</strong> a medical diagnosis device. Always consult certified medical practitioners for health decisions.
+    </p>
+  </div>
+</section>
+
+<!-- Quick Scenario Presets -->
+<section class="presets-section section-shell">
+  <div class="section-header">
+    <div>
+      <div class="eyebrow">ONE-CLICK DEMO CASES</div>
+      <h2>Test Pre-configured <span>Symptom Profiles.</span></h2>
+    </div>
+    <p>Explore how the classifier distinguishes between overlapping clinical presentations.</p>
+  </div>
+
+  <div class="presets-grid">
+    {% for preset in presets %}
+    <div class="preset-card">
+      <div class="preset-icon">{{ preset.icon }}</div>
+      <h3>{{ preset.name }}</h3>
+      <p class="preset-symptoms">Includes: {{ preset.symptoms|join(', ')|replace('_', ' ')|title }}</p>
+      <a class="preset-btn" href="{{ url_for('checker') }}?preset={{ preset.id }}">Load Into Checker <span>→</span></a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Core Features -->
+<section class="features section-shell">
+  <div class="section-header">
+    <div>
+      <div class="eyebrow">SYSTEM CAPABILITIES</div>
+      <h2>Engineered for <span>Depth & Transparency.</span></h2>
+    </div>
+    <p>Explore the full machine-learning lifecycle from symptom vectorization to explainable inferences.</p>
+  </div>
+
+  <div class="feature-grid">
+    <article class="feature-card">
+      <div class="feature-icon icon-blue">🔬</div>
+      <span class="card-number">01</span>
+      <h3>Multi-Model Benchmarking</h3>
+      <p>Trained and evaluated against Random Forest, Decision Trees, Logistic Regression, and Naive Bayes using 5-Fold Stratified Cross Validation.</p>
+      <a href="{{ url_for('analytics') }}">View Model Comparisons <span>→</span></a>
+    </article>
+
+    <article class="feature-card">
+      <div class="feature-icon icon-amber">🛡️</div>
+      <span class="card-number">02</span>
+      <h3>Triage & Red-Flag Alerts</h3>
+      <p>Rule-based clinical triage engine detects dangerous symptom combinations like respiratory distress or acute heat shock, issuing urgent medical alerts.</p>
+      <a href="{{ url_for('checker') }}">Try Triage Engine <span>→</span></a>
+    </article>
+
+    <article class="feature-card">
+      <div class="feature-icon icon-teal">📊</div>
+      <span class="card-number">03</span>
+      <h3>Differential Diagnosis</h3>
+      <p>Does not just output a single prediction; calculates top-3 candidate probabilities so users understand uncertainty and condition overlap.</p>
+      <a href="{{ url_for('conditions') }}">Explore Conditions <span>→</span></a>
+    </article>
+
+    <article class="feature-card">
+      <div class="feature-icon icon-purple">📑</div>
+      <span class="card-number">04</span>
+      <h3>Audit Log & CSV Export</h3>
+      <p>Every prediction is persisted to a local SQLite database with zero personal identifiers. Filter, search, and export logs to CSV for report analysis.</p>
+      <a href="{{ url_for('history') }}">View Audit History <span>→</span></a>
+    </article>
+  </div>
+</section>
+
+<!-- Featured Conditions Explorer Strip -->
+<section class="conditions-preview section-shell">
+  <div class="section-header">
+    <div>
+      <div class="eyebrow">DISEASE KNOWLEDGE BASE</div>
+      <h2>Covers 16 Common <span>Medical Conditions.</span></h2>
+    </div>
+    <a class="button button-quiet" href="{{ url_for('conditions') }}">Browse All 16 Conditions <span>→</span></a>
+  </div>
+
+  <div class="condition-chips-grid">
+    {% for cond in featured_conditions %}
+    <a class="condition-chip" href="{{ url_for('condition_detail', condition_name=cond) }}">
+      <span class="c-dot"></span>
+      <span class="c-name">{{ cond }}</span>
+      <span class="c-arrow">↗</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Bottom CTA Section -->
+<section class="bottom-cta section-shell">
+  <div class="cta-inner">
+    <div>
+      <span class="eyebrow">READY TO TEST?</span>
+      <h2>Start your interactive symptom assessment.</h2>
+      <p>Choose from 24 symptoms, customize duration, and observe the machine-learning classification output in seconds.</p>
+    </div>
+    <div class="cta-btns">
+      <a class="button button-light" href="{{ url_for('checker') }}">Open Symptom Checker <span>→</span></a>
+      <a class="button button-dark" href="{{ url_for('about') }}">Read Architecture Docs</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

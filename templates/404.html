@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}404 — Page Not Found — MediPredict AI{% endblock %}
+{% block content %}
+<section class="error-section section-shell">
+  <div class="error-box">
+    <div class="error-code">404</div>
+    <h1>Page Not Found</h1>
+    <p>The page or condition you requested could not be located in the MediPredict AI registry.</p>
+    <div class="error-actions">
+      <a href="{{ url_for('home') }}" class="button button-primary">Back to Home</a>
+      <a href="{{ url_for('checker') }}" class="button button-outline">Open Symptom Checker</a>
+      <a href="{{ url_for('conditions') }}" class="button button-quiet">Browse Knowledge Base</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

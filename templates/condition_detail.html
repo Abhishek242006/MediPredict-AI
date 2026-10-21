@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}{{ condition_name }} — Clinical Knowledge Base{% endblock %}
+{% block content %}
+<section class="condition-hero section-shell">
+  <div class="result-nav-bar">
+    <a class="back-link" href="{{ url_for('conditions') }}">← Back to Disease Encyclopedia</a>
+    <a class="button button-primary button-sm" href="{{ url_for('checker') }}">Test in Symptom Checker <span>→</span></a>
+  </div>
+
+  <div class="cd-header-card">
+    <div class="cd-top-meta">
+      <span class="category-tag">{{ info.category }}</span>
+      <span class="triage-badge {% if 'High' in info.risk_level %}badge-risk-urgent{% elif 'Moderate' in info.risk_level %}badge-risk-mod{% else %}badge-risk-low{% endif %}">
+        Risk: {{ info.risk_level }}
+      </span>
+    </div>
+    <h1 class="cd-title">{{ condition_name }}</h1>
+    <p class="cd-lead">{{ info.description }}</p>
+
+    <div class="cd-stats-row">
+      <div class="cd-stat">
+        <span class="label">Typical Duration</span>
+        <span class="val">{{ info.duration }}</span>
+      </div>
+      <div class="cd-stat">
+        <span class="label">Medical Specialist</span>
+        <span class="val">{{ info.specialist }}</span>
+      </div>
+      <div class="cd-stat">
+        <span class="label">Clinical Category</span>
+        <span class="val">{{ info.category }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cd-details-section section-shell">
+  <div class="cd-grid">
+    <div class="cd-main">
+      <div class="cd-block">
+        <div class="cd-block-header">
+          <span class="cd-icon">🤒</span>
+          <h2>Typical Clinical Presentation</h2>
+        </div>
+        <p>The following symptoms are commonly associated with {{ condition_name }} in educational literature:</p>
+        <div class="symptom-tags-cloud">
+          {% for s in info.typical_symptoms %}
+          <span class="tag-pill">{{ s }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="cd-block">
+        <div class="cd-block-header">
+          <span class="cd-icon">🍵</span>
+          <h2>Evidence-Based Self-Care Guidance</h2>
+        </div>
+        <ul class="cd-list">
+          {% for tip in info.self_care %}
+          <li>{{ tip }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="cd-block">
+        <div class="cd-block-header">
+          <span class="cd-icon">🛡️</span>
+          <h2>Prevention & Precautions</h2>
+        </div>
+        <p>{{ info.precautions }}</p>
+      </div>
+    </div>
+
+    <aside class="cd-sidebar">
+      <div class="cd-side-card alert-card">
+        <div class="side-header">
+          <span class="side-icon">🚨</span>
+          <h3>When to See a Doctor</h3>
+        </div>
+        <p class="side-text">{{ info.when_to_see_doctor }}</p>
+        <div class="provider-box">
+          <b>Recommended Consultation:</b><br>
+          {{ info.specialist }}
+        </div>
+      </div>
+
+      <div class="cd-side-card">
+        <div class="side-header">
+          <span class="side-icon">🔬</span>
+          <h3>Test This Condition</h3>
+        </div>
+        <p>Want to see how our trained Scikit-learn model classifies this disease pattern?</p>
+        <a class="button button-primary button-full" href="{{ url_for('checker') }}">
+          Launch Symptom Checker <span>→</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,576 @@
+{
+  "trained_at": "2026-10-21 10:19:21",
+  "total_samples": 560,
+  "test_samples": 112,
+  "features": [
+    "fever",
+    "high_fever",
+    "headache",
+    "throbbing_headache",
+    "cough",
+    "shortness_of_breath",
+    "chest_congestion",
+    "runny_nose",
+    "sore_throat",
+    "sneezing",
+    "fatigue",
+    "body_pain",
+    "chills",
+    "sweating",
+    "dizziness",
+    "loss_of_smell_taste",
+    "sensitivity_to_light",
+    "nausea",
+    "vomiting",
+    "diarrhea",
+    "abdominal_pain",
+    "loss_of_appetite",
+    "skin_rash",
+    "joint_pain"
+  ],
+  "feature_labels": {
+    "fever": "Fever (Mild/Moderate)",
+    "high_fever": "High Fever (>102\u00b0F / 39\u00b0C)",
+    "headache": "General Headache",
+    "throbbing_headache": "Severe Throbbing Headache",
+    "cough": "Persistent Cough",
+    "shortness_of_breath": "Shortness of Breath / Dyspnea",
+    "chest_congestion": "Chest Congestion / Tightness",
+    "runny_nose": "Runny / Stuffy Nose",
+    "sore_throat": "Sore / Scratchy Throat",
+    "sneezing": "Frequent Sneezing",
+    "fatigue": "Fatigue / General Weakness",
+    "body_pain": "Body / Muscle Aches (Myalgia)",
+    "chills": "Chills & Shivering",
+    "sweating": "Profuse Sweating",
+    "dizziness": "Dizziness / Lightheadedness",
+    "loss_of_smell_taste": "Loss of Smell or Taste (Anosmia)",
+    "sensitivity_to_light": "Light / Sound Sensitivity (Photophobia)",
+    "nausea": "Nausea / Queasiness",
+    "vomiting": "Vomiting",
+    "diarrhea": "Diarrhea / Loose Stools",
+    "abdominal_pain": "Abdominal Cramps / Pain",
+    "loss_of_appetite": "Loss of Appetite",
+    "skin_rash": "Skin Rash / Itching",
+    "joint_pain": "Joint Pain / Stiffness"
+  },
+  "classes": [
+    "Acid Reflux / GERD",
+    "Acute Bronchitis",
+    "Allergic Dermatitis",
+    "Allergy-like symptoms",
+    "Asthma Flare-up",
+    "COVID-19 like illness",
+    "Common cold",
+    "Flu-like illness",
+    "Food Poisoning",
+    "Heat Exhaustion",
+    "Joint Inflammation / Arthritis",
+    "Migraine",
+    "Sinusitis",
+    "Strep Throat",
+    "Tension Headache",
+    "Viral Gastroenteritis"
+  ],
+  "champion_model": "Logistic Regression",
+  "champion_metrics": {
+    "test_accuracy": 0.9196,
+    "precision": 0.9288,
+    "recall": 0.9196,
+    "f1_score": 0.919
+  },
+  "model_comparison": {
+    "Random Forest": {
+      "mean_cv_accuracy": 0.8773,
+      "std_cv_accuracy": 0.0181,
+      "fold_scores": [
+        0.8556,
+        0.8667,
+        0.8667,
+        0.8989,
+        0.8989
+      ],
+      "test_accuracy": 0.9107,
+      "precision": 0.9243,
+      "recall": 0.9107,
+      "f1_score": 0.9084
+    },
+    "Decision Tree": {
+      "mean_cv_accuracy": 0.6317,
+      "std_cv_accuracy": 0.0364,
+      "fold_scores": [
+        0.6667,
+        0.6556,
+        0.5667,
+        0.618,
+        0.6517
+      ],
+      "test_accuracy": 0.6786,
+      "precision": 0.6814,
+      "recall": 0.6786,
+      "f1_score": 0.6638
+    },
+    "Logistic Regression": {
+      "mean_cv_accuracy": 0.9174,
+      "std_cv_accuracy": 0.0166,
+      "fold_scores": [
+        0.8889,
+        0.9333,
+        0.9222,
+        0.9326,
+        0.9101
+      ],
+      "test_accuracy": 0.9196,
+      "precision": 0.9288,
+      "recall": 0.9196,
+      "f1_score": 0.919
+    },
+    "Multinomial Naive Bayes": {
+      "mean_cv_accuracy": 0.8796,
+      "std_cv_accuracy": 0.0244,
+      "fold_scores": [
+        0.8333,
+        0.8778,
+        0.8889,
+        0.8989,
+        0.8989
+      ],
+      "test_accuracy": 0.9196,
+      "precision": 0.9277,
+      "recall": 0.9196,
+      "f1_score": 0.9182
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "cough",
+      "display": "Persistent Cough",
+      "importance": 0.0612
+    },
+    {
+      "feature": "skin_rash",
+      "display": "Skin Rash / Itching",
+      "importance": 0.0602
+    },
+    {
+      "feature": "abdominal_pain",
+      "display": "Abdominal Cramps / Pain",
+      "importance": 0.0587
+    },
+    {
+      "feature": "fever",
+      "display": "Fever (Mild/Moderate)",
+      "importance": 0.0586
+    },
+    {
+      "feature": "sneezing",
+      "display": "Frequent Sneezing",
+      "importance": 0.0585
+    },
+    {
+      "feature": "chest_congestion",
+      "display": "Chest Congestion / Tightness",
+      "importance": 0.056
+    },
+    {
+      "feature": "high_fever",
+      "display": "High Fever (>102\u00b0F / 39\u00b0C)",
+      "importance": 0.0559
+    },
+    {
+      "feature": "sore_throat",
+      "display": "Sore / Scratchy Throat",
+      "importance": 0.0536
+    },
+    {
+      "feature": "runny_nose",
+      "display": "Runny / Stuffy Nose",
+      "importance": 0.0483
+    },
+    {
+      "feature": "sweating",
+      "display": "Profuse Sweating",
+      "importance": 0.0465
+    },
+    {
+      "feature": "joint_pain",
+      "display": "Joint Pain / Stiffness",
+      "importance": 0.0395
+    },
+    {
+      "feature": "throbbing_headache",
+      "display": "Severe Throbbing Headache",
+      "importance": 0.0392
+    },
+    {
+      "feature": "body_pain",
+      "display": "Body / Muscle Aches (Myalgia)",
+      "importance": 0.0389
+    },
+    {
+      "feature": "dizziness",
+      "display": "Dizziness / Lightheadedness",
+      "importance": 0.0378
+    },
+    {
+      "feature": "loss_of_smell_taste",
+      "display": "Loss of Smell or Taste (Anosmia)",
+      "importance": 0.0373
+    },
+    {
+      "feature": "chills",
+      "display": "Chills & Shivering",
+      "importance": 0.0344
+    },
+    {
+      "feature": "fatigue",
+      "display": "Fatigue / General Weakness",
+      "importance": 0.0338
+    },
+    {
+      "feature": "diarrhea",
+      "display": "Diarrhea / Loose Stools",
+      "importance": 0.0315
+    },
+    {
+      "feature": "headache",
+      "display": "General Headache",
+      "importance": 0.0304
+    },
+    {
+      "feature": "shortness_of_breath",
+      "display": "Shortness of Breath / Dyspnea",
+      "importance": 0.0277
+    },
+    {
+      "feature": "nausea",
+      "display": "Nausea / Queasiness",
+      "importance": 0.0275
+    },
+    {
+      "feature": "loss_of_appetite",
+      "display": "Loss of Appetite",
+      "importance": 0.0236
+    },
+    {
+      "feature": "vomiting",
+      "display": "Vomiting",
+      "importance": 0.0229
+    },
+    {
+      "feature": "sensitivity_to_light",
+      "display": "Light / Sound Sensitivity (Photophobia)",
+      "importance": 0.0181
+    }
+  ],
+  "confusion_matrix": {
+    "labels": [
+      "Acid Reflux / GERD",
+      "Acute Bronchitis",
+      "Allergic Dermatitis",
+      "Allergy-like symptoms",
+      "Asthma Flare-up",
+      "COVID-19 like illness",
+      "Common cold",
+      "Flu-like illness",
+      "Food Poisoning",
+      "Heat Exhaustion",
+      "Joint Inflammation / Arthritis",
+      "Migraine",
+      "Sinusitis",
+      "Strep Throat",
+      "Tension Headache",
+      "Viral Gastroenteritis"
+    ],
+    "matrix": [
+      [
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7
+      ]
+    ]
+  }
+}

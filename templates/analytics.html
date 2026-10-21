@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Machine Learning Benchmarks & Viva Guide — MediPredict AI{% endblock %}
+{% block content %}
+<section class="page-hero section-shell">
+  <div class="hero-center">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> MODEL EXPLAINABILITY & METRICS</div>
+    <h1>Machine Learning <span>Insights.</span></h1>
+    <p>Comprehensive benchmarking of candidate classifiers, 5-Fold Stratified Cross Validation, feature importance rankings, and viva presentation notes.</p>
+  </div>
+</section>
+
+<section class="analytics-container section-shell">
+  {% if metadata %}
+  <!-- Champion Model Summary Card -->
+  <div class="champion-banner">
+    <div class="cb-left">
+      <div class="cb-badge">CHAMPION ALGORITHM</div>
+      <h2 class="cb-title">{{ metadata.champion_model }}</h2>
+      <p class="cb-sub">Trained on {{ metadata.total_samples }} balanced clinical profiles · Test Split: {{ metadata.test_samples }} samples (80/20 Stratified)</p>
+    </div>
+    <div class="cb-metrics">
+      <div class="cb-metric">
+        <span class="m-val">{{ (metadata.champion_metrics.test_accuracy * 100)|round(1) }}%</span>
+        <span class="m-label">Test Accuracy</span>
+      </div>
+      <div class="cb-metric">
+        <span class="m-val">{{ (metadata.champion_metrics.f1_score * 100)|round(1) }}%</span>
+        <span class="m-label">Weighted F1-Score</span>
+      </div>
+      <div class="cb-metric">
+        <span class="m-val">{{ (metadata.champion_metrics.precision * 100)|round(1) }}%</span>
+        <span class="m-label">Precision</span>
+      </div>
+      <div class="cb-metric">
+        <span class="m-val">{{ (metadata.champion_metrics.recall * 100)|round(1) }}%</span>
+        <span class="m-label">Recall</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Algorithm Comparison Leaderboard -->
+  <div class="analytics-section">
+    <div class="as-header">
+      <span class="as-icon">🏆</span>
+      <div>
+        <h2>Algorithm Benchmark Leaderboard</h2>
+        <p>Comparing candidate classifiers across 5-Fold Stratified Cross-Validation and held-out test evaluation.</p>
+      </div>
+    </div>
+
+    <div class="comparison-table-wrap">
+      <table class="benchmark-table">
+        <thead>
+          <tr>
+            <th>Model Architecture</th>
+            <th>5-Fold CV Accuracy</th>
+            <th>CV Std Dev</th>
+            <th>Test Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1-Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for model_name, stats in metadata.model_comparison.items() %}
+          <tr class="{% if model_name == metadata.champion_model %}row-champion{% endif %}">
+            <td class="col-mname">
+              <b>{{ model_name }}</b>
+              {% if model_name == metadata.champion_model %}
+              <span class="badge-champ">Champion</span>
+              {% endif %}
+            </td>
+            <td class="col-bold">{{ (stats.mean_cv_accuracy * 100)|round(2) }}%</td>
+            <td>±{{ (stats.std_cv_accuracy * 100)|round(2) }}%</td>
+            <td class="col-bold">{{ (stats.test_accuracy * 100)|round(2) }}%</td>
+            <td>{{ (stats.precision * 100)|round(2) }}%</td>
+            <td>{{ (stats.recall * 100)|round(2) }}%</td>
+            <td>{{ (stats.f1_score * 100)|round(2) }}%</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Feature Importance & Predictor Power -->
+  <div class="analytics-section">
+    <div class="as-header">
+      <span class="as-icon">📈</span>
+      <div>
+        <h2>Feature Importance (Predictive Symptom Weight)</h2>
+        <p>Gini impurity reduction across tree splits, revealing which symptoms carry the highest discriminative power.</p>
+      </div>
+    </div>
+
+    <div class="feature-importance-grid">
+      {% for item in metadata.feature_importance[:12] %}
+      <div class="fi-item">
+        <div class="fi-header">
+          <span class="fi-name">{{ item.display }}</span>
+          <span class="fi-val">{{ (item.importance * 100)|round(2) }}%</span>
+        </div>
+        <div class="fi-bar-track">
+          <div class="fi-bar-fill" style="width: {{ (item.importance * 100 * 8)|round(1) }}%;"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Viva & Presentation Q&A Section -->
+  <div class="viva-guide-section">
+    <div class="as-header">
+      <span class="as-icon">🎓</span>
+      <div>
+        <h2>Internship & Viva Defense Guide</h2>
+        <p>Key technical concepts, theoretical trade-offs, and expected presentation questions.</p>
+      </div>
+    </div>
+
+    <div class="qa-cards-grid">
+      <div class="qa-card">
+        <h3>Q1: Why use Stratified K-Fold over standard K-Fold?</h3>
+        <p>
+          In healthcare multi-class classification, symptom datasets must preserve the percentage of samples for each disease class across every fold. Stratified K-Fold guarantees identical class distributions in both training and validation subsets, preventing under-representation of rare pathologies.
+        </p>
+      </div>
+
+      <div class="qa-card">
+        <h3>Q2: Why does Random Forest outperform a single Decision Tree?</h3>
+        <p>
+          A single Decision Tree is prone to high variance and overfitting noisy symptom combinations. Random Forest uses bootstrap aggregation (bagging) with random feature subspace sampling, creating an ensemble of decorrelated trees whose averaged vote drastically reduces variance without increasing bias.
+        </p>
+      </div>
+
+      <div class="qa-card">
+        <h3>Q3: How are differential diagnosis probabilities calculated?</h3>
+        <p>
+          In Scikit-learn, probabilities are computed via <code>predict_proba</code>. For Logistic Regression, the softmax function converts raw log-odds into a normalized probability distribution across all 16 classes (\(\sum p_i = 1\)). For Random Forest, it computes the fraction of voting trees supporting each class.
+        </p>
+      </div>
+
+      <div class="qa-card">
+        <h3>Q4: What are the primary ethical and safety constraints?</h3>
+        <p>
+          Medical AI systems cannot assess patient history, vital signs (SpO2, blood pressure), or lab tests. MediPredict AI implements defensive engineering: automated red-flag triage, differential probabilities instead of single labels, and prominent safety disclaimers to prevent diagnostic misuse.
+        </p>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="empty-icon">⚠️</span>
+    <h3>Model Metadata Not Found</h3>
+    <p>Please train the model first by executing <code>python train_model.py</code> in your project directory.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

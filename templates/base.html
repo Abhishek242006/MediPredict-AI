@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MediPredict AI — Educational disease prediction and clinical pattern analysis demonstration powered by Scikit-learn and Flask.">
+  <meta name="theme-color" content="#0ea5e9">
+  <title>{% block title %}MediPredict AI — Clinical Symptom Intelligence{% endblock %}</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="MediPredict AI home">
+      <span class="brand-mark">+</span>
+      <span class="brand-text">MediPredict <b>AI</b></span>
+      <span class="badge-tag">Academic v2.0</span>
+    </a>
+    
+    <div class="nav-right">
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
+        <a href="{{ url_for('checker') }}" class="{% if request.endpoint == 'checker' %}active{% endif %}">Symptom Checker</a>
+        <a href="{{ url_for('conditions') }}" class="{% if request.endpoint in ['conditions', 'condition_detail'] %}active{% endif %}">Knowledge Base</a>
+        <a href="{{ url_for('history') }}" class="{% if request.endpoint == 'history' %}active{% endif %}">History</a>
+        <a href="{{ url_for('analytics') }}" class="{% if request.endpoint == 'analytics' %}active{% endif %}">Model Insights</a>
+        <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
+        <a class="nav-cta" href="{{ url_for('checker') }}">Check Symptoms <span>→</span></a>
+      </nav>
+      
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark/light theme" title="Toggle Theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-col brand-col">
+        <a class="brand footer-brand" href="{{ url_for('home') }}">
+          <span class="brand-mark">+</span>
+          <span class="brand-text">MediPredict <b>AI</b></span>
+        </a>
+        <p class="footer-desc">
+          An open educational prototype integrating Machine Learning classification algorithms, risk triage logic, and symptom explainability for academic demonstration and research.
+        </p>
+        <div class="footer-badges">
+          <span class="f-badge">Flask 3.1</span>
+          <span class="f-badge">Scikit-Learn</span>
+          <span class="f-badge">SQLite3</span>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home Overview</a></li>
+          <li><a href="{{ url_for('checker') }}">Symptom Checker</a></li>
+          <li><a href="{{ url_for('conditions') }}">Disease Encyclopedia</a></li>
+          <li><a href="{{ url_for('history') }}">Audit History</a></li>
+          <li><a href="{{ url_for('analytics') }}">ML Analytics & Viva</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Developer & API</h4>
+        <ul>
+          <li><a href="{{ url_for('about') }}">Architecture & Pipeline</a></li>
+          <li><a href="/api/symptoms" target="_blank">Symptoms REST API ↗</a></li>
+          <li><a href="/api/conditions" target="_blank">Conditions REST API ↗</a></li>
+          <li><a href="/api/metrics" target="_blank">Model Metrics JSON ↗</a></li>
+          <li><a href="{{ url_for('export_csv') }}">Export Audit CSV ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col emergency-col">
+        <h4>Medical Emergency?</h4>
+        <p>If you or someone else is experiencing severe breathing difficulty, chest pain, or loss of consciousness, call your local emergency service immediately.</p>
+        <div class="emergency-badge">🚨 Call 911 / 112 / 108</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {{ current_year }} MediPredict AI · Final Year / Internship Demonstration Project. Not a medical device.</p>
+      <div class="footer-disclaimer-tag">Strictly for Educational Use</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

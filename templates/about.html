@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Architecture & Methodology — MediPredict AI{% endblock %}
+{% block content %}
+<section class="page-hero section-shell">
+  <div class="hero-center">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> SYSTEM ARCHITECTURE & METHODOLOGY</div>
+    <h1>Engineered with <span>transparency.</span></h1>
+    <p>MediPredict AI bridges data science and full-stack web engineering, illustrating how supervised classifiers, clinical safety heuristics, and responsive interfaces collaborate.</p>
+  </div>
+</section>
+
+<section class="about-container section-shell">
+  <!-- End-to-End Workflow Diagram -->
+  <div class="about-card">
+    <div class="as-header">
+      <span class="as-icon">🔄</span>
+      <div>
+        <h2>System Architecture & Inference Pipeline</h2>
+        <p>From client-side symptom selection to multi-model inference and clinical reporting.</p>
+      </div>
+    </div>
+
+    <div class="pipeline-grid">
+      <div class="pipeline-step">
+        <span class="ps-num">01</span>
+        <h3>Client Selection</h3>
+        <p>User toggles from 24 multi-system symptoms and provides optional context (age group, duration).</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <span class="ps-num">02</span>
+        <h3>Binary Encoding</h3>
+        <p>Flask vectorizes inputs into an immutable 24-dimensional binary feature vector <code>X ∈ {0, 1}^24</code>.</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <span class="ps-num">03</span>
+        <h3>ML Model Inference</h3>
+        <p>Scikit-learn model evaluates feature space, returning class probabilities across 16 medical conditions.</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <span class="ps-num">04</span>
+        <h3>Clinical Triage</h3>
+        <p>Rule engine checks for red-flag emergency combinations (e.g., dyspnea + fever), assigning risk triage.</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <span class="ps-num">05</span>
+        <h3>Report & Local Audit</h3>
+        <p>Interactive result rendered with self-care tips; record safely saved to local SQLite database.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack Grid -->
+  <div class="about-card">
+    <div class="as-header">
+      <span class="as-icon">💻</span>
+      <div>
+        <h2>Technology Stack & Tooling</h2>
+        <p>Built with robust, industry-standard Python data science and web technologies.</p>
+      </div>
+    </div>
+
+    <div class="tech-stack-grid">
+      <div class="tech-box">
+        <span class="tb-badge tb-python">Python 3.13</span>
+        <h3>Core Runtime</h3>
+        <p>Powers the backend pipeline, mathematical computations, and data transformations.</p>
+      </div>
+      <div class="tech-box">
+        <span class="tb-badge tb-flask">Flask 3.1</span>
+        <h3>Web Framework</h3>
+        <p>Handles WSGI routing, template rendering, request validation, and REST API endpoints.</p>
+      </div>
+      <div class="tech-box">
+        <span class="tb-badge tb-sklearn">Scikit-learn</span>
+        <h3>Machine Learning</h3>
+        <p>Ensemble classifiers, cross-validation, probability calibration, and performance metrics.</p>
+      </div>
+      <div class="tech-box">
+        <span class="tb-badge tb-sqlite">SQLite3</span>
+        <h3>Local Database</h3>
+        <p>Zero-configuration embedded relational storage for demo prediction history and auditing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mathematical Formulation & Metrics -->
+  <div class="about-card">
+    <div class="as-header">
+      <span class="as-icon">📐</span>
+      <div>
+        <h2>Mathematical Formulation & Metrics</h2>
+        <p>Theoretical framework governing model evaluation and training.</p>
+      </div>
+    </div>
+
+    <div class="math-grid">
+      <div class="math-card">
+        <h4>1. Accuracy Score</h4>
+        <p>The fraction of predictions the model got right across all 16 target disease classes:</p>
+        <code>Accuracy = (TP + TN) / (TP + TN + FP + FN)</code>
+      </div>
+      <div class="math-card">
+        <h4>2. Precision & Recall</h4>
+        <p>Precision assesses clinical relevance, while Recall measures sensitivity against false negatives:</p>
+        <code>Precision = TP / (TP + FP) | Recall = TP / (TP + FN)</code>
+      </div>
+      <div class="math-card">
+        <h4>3. Weighted F1-Score</h4>
+        <p>Harmonic mean balancing precision and recall across all condition categories:</p>
+        <code>F1 = 2 × (Precision × Recall) / (Precision + Recall)</code>
+      </div>
+      <div class="math-card">
+        <h4>4. Gini Impurity (Tree Splits)</h4>
+        <p>Measures node purity across decision trees to determine the best symptom split:</p>
+        <code>Gini = 1 - \sum_{i=1}^{C} (p_i)^2</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Responsible AI & Clinical Safeguards -->
+  <div class="about-card ethics-card">
+    <div class="as-header">
+      <span class="as-icon">🛡️</span>
+      <div>
+        <h2>Responsible AI & Ethical Healthcare Principles</h2>
+        <p>Guiding design decisions for patient safety and transparency.</p>
+      </div>
+    </div>
+
+    <div class="ethics-list">
+      <div class="ethic-item">
+        <b>1. Transparent Disclaimers:</b> Every screen clearly discloses that MediPredict AI is an educational computer science demo, preventing diagnostic reliance.
+      </div>
+      <div class="ethic-item">
+        <b>2. Rule-Based Triage Safety Net:</b> Red-flag indicators immediately bypass model nuances to display urgent emergency warnings with emergency hotline numbers.
+      </div>
+      <div class="ethic-item">
+        <b>3. Privacy by Design:</b> No names, phone numbers, IP addresses, or cookies are logged. All historical records are saved strictly on the local machine.
+      </div>
+      <div class="ethic-item">
+        <b>4. Multi-Condition Differentials:</b> Replaces naive "single disease certainty" with ranked differential probabilities, acknowledging the reality of symptom ambiguity.
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

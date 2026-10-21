@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Interactive Symptom Checker — MediPredict AI{% endblock %}
+{% block content %}
+<section class="page-hero section-shell">
+  <div class="hero-center">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> CLINICAL INFERENCE ENGINE</div>
+    <h1>Select your <span>symptoms.</span></h1>
+    <p>Choose from 24 multi-system symptoms below. Our trained classification model evaluates the pattern to return differential probabilities and risk triage.</p>
+    <div class="step-indicator">
+      <span class="step-badge active"><span class="step-num">1</span> Symptom Selection</span>
+      <span class="step-line"></span>
+      <span class="step-badge"><span class="step-num">2</span> ML Inference & Triage</span>
+      <span class="step-line"></span>
+      <span class="step-badge"><span class="step-num">3</span> Clinical Report</span>
+    </div>
+  </div>
+</section>
+
+<section class="checker-container section-shell">
+  <div class="checker-left">
+    {% if error %}
+    <div class="alert alert-error" role="alert">
+      <span class="alert-icon">⚠️</span>
+      <div><b>Input Required:</b> {{ error }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Scenario Presets -->
+    <div class="presets-toolbar">
+      <span class="toolbar-label">Quick Presets:</span>
+      <div class="preset-chips">
+        {% for preset in presets %}
+        <button type="button" class="preset-chip-btn" data-symptoms="{{ preset.symptoms|join(',') }}">
+          <span class="p-icon">{{ preset.icon }}</span> {{ preset.name }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="filter-toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="symptom-search" placeholder="Search any symptom (e.g., cough, fever, vomiting, rash)..." autocomplete="off">
+        <button type="button" id="clear-search" class="clear-search-btn" style="display:none;">✕</button>
+      </div>
+
+      <div class="selection-meta">
+        <span class="selected-pill"><b id="selected-count">0</b> of {{ symptoms|length }} selected</span>
+        <button type="button" id="btn-clear-all" class="btn-text-action">Clear All</button>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-category="all" role="tab" aria-selected="true">All ({{ symptoms|length }})</button>
+      {% for cat_name, cat_syms in categories.items() %}
+      <button type="button" class="tab-btn" data-category="{{ cat_name }}" role="tab" aria-selected="false">{{ cat_name }} ({{ cat_syms|length }})</button>
+      {% endfor %}
+    </div>
+
+    <form action="{{ url_for('predict') }}" method="post" id="symptom-form">
+      <!-- Patient Context Row -->
+      <div class="patient-context-box">
+        <div class="context-field">
+          <label for="age_group">👤 Patient Age Group:</label>
+          <select name="age_group" id="age_group">
+            <option value="Child (0-12)">Child (0-12 yrs)</option>
+            <option value="Adolescent (13-17)">Adolescent (13-17 yrs)</option>
+            <option value="Adult (18-64)" selected>Adult (18-64 yrs)</option>
+            <option value="Senior (65+)">Senior (65+ yrs)</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <label for="duration">⏱️ Symptom Duration:</label>
+          <select name="duration" id="duration">
+            <option value="Under 24 hours">Under 24 hours (Sudden)</option>
+            <option value="2-5 days" selected>2 to 5 days (Acute)</option>
+            <option value="1-2 weeks">1 to 2 weeks (Subacute)</option>
+            <option value="Over 2 weeks">Over 2 weeks (Persistent / Chronic)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Symptom Checkbox Grid -->
+      <div class="symptom-cards-grid" id="symptom-grid">
+        {% for s in symptoms %}
+        {% set s_cat = "Other" %}
+        {% for cat_name, cat_syms in categories.items() %}
+          {% if s in cat_syms %}{% set s_cat = cat_name %}{% endif %}
+        {% endfor %}
+        <label class="symptom-card" data-symptom-id="{{ s }}" data-category="{{ s_cat }}">
+          <input type="checkbox" name="symptoms" value="{{ s }}" class="symptom-checkbox">
+          <div class="card-inner">
+            <div class="card-top">
+              <span class="card-icon">{{ icons[s] }}</span>
+              <span class="custom-checkbox"></span>
+            </div>
+            <div class="card-title">{{ labels[s] }}</div>
+            <div class="card-category">{{ s_cat }}</div>
+          </div>
+        </label>
+        {% endfor %}
+      </div>
+
+      <div id="no-search-results" class="no-results-notice" style="display: none;">
+        <span>🔍</span>
+        <p>No symptoms match your search query. Try typing another term or reset search.</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-submit-row">
+        <button type="submit" class="button button-primary button-lg" id="predict-button">
+          Run Model Inference <span>→</span>
+        </button>
+        <button type="reset" class="button button-quiet" id="reset-button">
+          Reset Selections
+        </button>
+      </div>
+
+      <p class="privacy-note">
+        🔒 <b>Zero Personal Identifiers:</b> MediPredict AI does not record names, emails, IP addresses, or location data.
+      </p>
+    </form>
+  </div>
+
+  <!-- Sidebar Clinical Notes -->
+  <aside class="checker-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <span class="sb-icon">🚨</span>
+        <h3>Emergency Red Flags</h3>
+      </div>
+      <p class="sb-lead">If any of the following occur, do not use this app. Seek emergency hospital care immediately:</p>
+      <ul class="red-flag-list">
+        <li>Severe difficulty breathing or gasping</li>
+        <li>Persistent crushing chest pressure or pain</li>
+        <li>Sudden confusion or inability to speak</li>
+        <li>Bluish lips, face, or nailbeds</li>
+        <li>Temperature above 104°F (40°C)</li>
+      </ul>
+      <div class="emergency-box">
+        <b>Emergency Line: 911 / 112 / 108</b>
+      </div>
+    </div>
+
+    <div class="sidebar-card info-card">
+      <div class="sidebar-header">
+        <span class="sb-icon">💡</span>
+        <h3>How It Works</h3>
+      </div>
+      <p>
+        Your selections are converted into a 24-dimensional binary feature vector <code>[0, 1, 0, ...]</code> matching the model's exact training schema.
+      </p>
+      <p>
+        The trained classifier then computes class probabilities across 16 medical conditions to determine primary and differential diagnoses.
+      </p>
+      <a class="sidebar-link" href="{{ url_for('analytics') }}">View Model Performance Specs →</a>
+    </div>
+
+    <div class="sidebar-card caution-card">
+      <div class="sidebar-header">
+        <span class="sb-icon">⚠️</span>
+        <h3>Educational Guardrails</h3>
+      </div>
+      <p>
+        Symptom overlap is very high in medicine. A cough could indicate a common cold, asthma, or bronchitis. Real medical diagnosis requires physical examinations, stethoscopes, lab tests, and imaging.
+      </p>
+    </div>
+  </aside>
+</section>
+{% endblock %}

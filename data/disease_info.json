@@ -1,0 +1,259 @@
+{
+  "Common cold": {
+    "category": "Respiratory",
+    "description": "A mild viral infection of the upper respiratory tract primarily affecting the nose and throat.",
+    "risk_level": "Low",
+    "duration": "7 to 10 days",
+    "typical_symptoms": ["Runny nose", "Cough", "Sore throat", "Sneezing", "Mild fatigue"],
+    "self_care": [
+      "Get plenty of rest and drink abundant warm fluids (broth, herbal teas, warm water).",
+      "Use saline nasal drops or steam inhalation to relieve nasal congestion.",
+      "Gargle warm salt water (half teaspoon salt in warm water) to soothe throat irritation.",
+      "Over-the-counter pain relievers or throat lozenges may provide symptom comfort."
+    ],
+    "when_to_see_doctor": "Consult a healthcare provider if symptoms persist beyond 10-14 days, fever exceeds 102°F (39°C), or you develop severe earache or wheezing.",
+    "precautions": "Wash hands frequently, sneeze into elbows or tissues, and avoid close contact with others.",
+    "specialist": "General Physician / Primary Care"
+  },
+  "Flu-like illness": {
+    "category": "Systemic & Respiratory",
+    "description": "An acute viral respiratory infection (commonly influenza viruses) causing sudden high fever, chills, and widespread body pain.",
+    "risk_level": "Moderate",
+    "duration": "1 to 2 weeks",
+    "typical_symptoms": ["Fever", "High fever", "Body pain", "Fatigue", "Chills", "Headache", "Cough"],
+    "self_care": [
+      "Strict bed rest to help your immune system fight the infection.",
+      "Hydrate vigorously with electrolyte solutions, water, and warm soups.",
+      "Acetaminophen or Ibuprofen as advised to manage fever and myalgia.",
+      "Use a room humidifier to ease breathing."
+    ],
+    "when_to_see_doctor": "Seek medical evaluation if experiencing shortness of breath, persistent chest pain, confusion, inability to keep fluids down, or fever returning after initial recovery.",
+    "precautions": "Annual flu vaccination, isolating while symptomatic, wearing masks around high-risk individuals.",
+    "specialist": "General Physician / Internal Medicine"
+  },
+  "COVID-19 like illness": {
+    "category": "Systemic & Respiratory",
+    "description": "A viral syndrome caused by SARS-CoV-2 presenting with respiratory, systemic, and sensory disturbances such as loss of taste or smell.",
+    "risk_level": "Moderate to High",
+    "duration": "1 to 3 weeks",
+    "typical_symptoms": ["Fever", "Cough", "Loss of smell or taste", "Fatigue", "Shortness of breath", "Headache", "Body pain"],
+    "self_care": [
+      "Self-isolate to protect family members and the community.",
+      "Monitor blood oxygen saturation (SpO2) with a pulse oximeter if available.",
+      "Maintain high fluid intake and adequate nutrition.",
+      "Rest in prone (belly-down) or semi-upright positions to ease lung expansion."
+    ],
+    "when_to_see_doctor": "IMMEDIATELY seek emergency care if oxygen saturation drops below 94%, severe shortness of breath occurs, lips or face turn bluish, or persistent chest pressure develops.",
+    "precautions": "Take a rapid antigen/RT-PCR test, wear an N95/FFP2 mask, ventilate indoor spaces, and stay updated on vaccinations.",
+    "specialist": "Infectious Disease Specialist / Pulmonologist"
+  },
+  "Allergy-like symptoms": {
+    "category": "Allergic",
+    "description": "An immune system hypersensitivity reaction to airborne allergens such as pollen, dust mites, pet dander, or mold spores.",
+    "risk_level": "Low",
+    "duration": "Seasonal or chronic depending on allergen exposure",
+    "typical_symptoms": ["Sneezing", "Runny nose", "Skin rash or itching", "Fatigue", "Mild headache"],
+    "self_care": [
+      "Identify and minimize exposure to known environmental triggers.",
+      "Keep windows closed during high pollen count days and use HEPA air purifiers.",
+      "Rinse nasal passages with sterile saline wash or Neti pot.",
+      "Non-sedating over-the-counter antihistamines may alleviate sneezing and rhinorrhea."
+    ],
+    "when_to_see_doctor": "See a doctor if symptoms interfere with sleep or work, secondary sinus pain develops, or wheezing occurs.",
+    "precautions": "Shower and change clothing after spending extended time outdoors during peak pollen seasons.",
+    "specialist": "Allergist / Immunologist"
+  },
+  "Acute Bronchitis": {
+    "category": "Respiratory",
+    "description": "Inflammation of the bronchial tubes usually following a viral cold, characterized by persistent chesty cough and congestion.",
+    "risk_level": "Moderate",
+    "duration": "2 to 3 weeks",
+    "typical_symptoms": ["Cough", "Chest congestion", "Fatigue", "Mild fever", "Sore throat", "Shortness of breath"],
+    "self_care": [
+      "Steam inhalation and warm teas with honey to soothe bronchial irritation.",
+      "Avoid smoke, fumes, cold dry air, and air pollution.",
+      "Rest your voice and body; use elevation while sleeping.",
+      "Drink at least 2 to 3 liters of fluids daily to thin bronchial mucus."
+    ],
+    "when_to_see_doctor": "Consult a physician if coughing produces rust-colored or bloody mucus, wheezing is pronounced, or cough lasts longer than 3-4 weeks.",
+    "precautions": "Avoid smoking and secondhand smoke, practice hand hygiene, get vaccinated against respiratory pathogens.",
+    "specialist": "Pulmonologist / General Physician"
+  },
+  "Sinusitis": {
+    "category": "Respiratory & Head",
+    "description": "Inflammation or infection of the tissue lining the sinus cavities, causing facial pressure, congestion, and headaches.",
+    "risk_level": "Low to Moderate",
+    "duration": "10 days to 4 weeks",
+    "typical_symptoms": ["Headache", "Runny nose", "Facial pressure", "Cough", "Fever", "Fatigue", "Loss of smell or taste"],
+    "self_care": [
+      "Apply warm, moist compresses to the forehead and cheeks.",
+      "Use sterile saline nasal rinses multiple times daily.",
+      "Stay hydrated to keep mucus thin and drainage active.",
+      "Sleep with your head elevated."
+    ],
+    "when_to_see_doctor": "Seek care if experiencing severe eye swelling, changes in vision, stiff neck, or symptoms that worsen after initial improvement (double sickening).",
+    "precautions": "Treat allergies promptly, avoid cigarette smoke, and use humidifiers during winter.",
+    "specialist": "ENT (Otolaryngologist) / General Physician"
+  },
+  "Strep Throat": {
+    "category": "Throat & Bacterial",
+    "description": "A bacterial infection caused by Streptococcus pyogenes causing severe throat soreness, pain when swallowing, and sudden fever without cough.",
+    "risk_level": "Moderate",
+    "duration": "3 to 7 days with antibiotics",
+    "typical_symptoms": ["Sore throat", "Fever", "High fever", "Headache", "Body pain", "Loss of appetite", "Nausea"],
+    "self_care": [
+      "Gargle warm salt water several times a day.",
+      "Drink warm soothing liquids or suck on ice chips.",
+      "Eat soft, easy-to-swallow foods like yogurt, soups, and oatmeal.",
+      "Complete the entire course of prescribed antibiotics if confirmed bacterial."
+    ],
+    "when_to_see_doctor": "A rapid strep swab test is essential because untreated strep can lead to rheumatic fever or kidney inflammation. Seek urgent care if difficulty breathing or swallowing saliva occurs.",
+    "precautions": "Replace your toothbrush 24-48 hours after starting antibiotics, wash eating utensils thoroughly.",
+    "specialist": "ENT Specialist / General Physician"
+  },
+  "Migraine": {
+    "category": "Neurological",
+    "description": "A neurological condition characterized by intense, throbbing unilateral headache accompanied by nausea and sensitivity to light or sound.",
+    "risk_level": "Moderate",
+    "duration": "4 to 72 hours per attack",
+    "typical_symptoms": ["Throbbing headache", "Nausea", "Sensitivity to light", "Vomiting", "Dizziness", "Fatigue"],
+    "self_care": [
+      "Rest in a quiet, dark, temperature-controlled room.",
+      "Apply cold gel packs or warm compresses to the forehead or back of the neck.",
+      "Sip small amounts of water or ginger tea to alleviate nausea.",
+      "Keep a headache journal to track triggers (stress, skipping meals, caffeine, weather changes)."
+    ],
+    "when_to_see_doctor": "Seek immediate emergency help if you experience a 'thunderclap' headache (sudden maximum intensity in seconds), confusion, weakness, numbness, or difficulty speaking.",
+    "precautions": "Maintain regular sleep schedules, stay hydrated, avoid skipping meals, and manage stress.",
+    "specialist": "Neurologist / Headache Specialist"
+  },
+  "Tension Headache": {
+    "category": "Neurological",
+    "description": "The most common type of headache, feeling like a tight band of constant dull ache around the forehead, temples, or back of the head.",
+    "risk_level": "Low",
+    "duration": "30 minutes to a few hours",
+    "typical_symptoms": ["Headache", "Fatigue", "Body pain"],
+    "self_care": [
+      "Gentle neck and shoulder stretching exercises.",
+      "Take regular screen breaks (follow the 20-20-20 rule).",
+      "Stay hydrated and avoid skipping lunch or breakfast.",
+      "Apply gentle pressure massage to temples and base of the skull."
+    ],
+    "when_to_see_doctor": "Consult a doctor if headaches occur more than 15 days a month (chronic tension headache) or fail to respond to standard care.",
+    "precautions": "Ergonomic desk setup, regular physical activity, stress-reduction techniques like meditation.",
+    "specialist": "General Physician / Neurologist"
+  },
+  "Viral Gastroenteritis": {
+    "category": "Digestive",
+    "description": "An intestinal viral infection (stomach flu) causing watery diarrhea, abdominal cramps, nausea, and vomiting.",
+    "risk_level": "Moderate",
+    "duration": "2 to 5 days",
+    "typical_symptoms": ["Nausea", "Vomiting", "Diarrhea", "Abdominal pain", "Fever", "Fatigue", "Loss of appetite"],
+    "self_care": [
+      "Prioritize oral rehydration solutions (ORS) with small, frequent sips to replace lost electrolytes.",
+      "Gradually reintroduce bland foods (BRAT diet: Bananas, Rice, Applesauce, Toast).",
+      "Avoid dairy, caffeine, alcohol, nicotine, and greasy or highly seasoned foods.",
+      "Rest your stomach for a few hours after vomiting before attempting sips of liquid."
+    ],
+    "when_to_see_doctor": "Seek medical attention immediately if unable to keep liquids down for 24 hours, signs of severe dehydration appear (extreme thirst, dry mouth, little/no urination, dizziness), or blood is present in stool/vomit.",
+    "precautions": "Wash hands with soap and water thoroughly before eating and after using the restroom; disinfect surfaces.",
+    "specialist": "Gastroenterologist / General Physician"
+  },
+  "Food Poisoning": {
+    "category": "Digestive & Toxins",
+    "description": "An illness caused by eating contaminated, spoiled, or toxic food or water, typically presenting rapidly with intense nausea, vomiting, cramps, and diarrhea.",
+    "risk_level": "Moderate to High",
+    "duration": "1 to 3 days",
+    "typical_symptoms": ["Nausea", "Vomiting", "Diarrhea", "Abdominal pain", "Fever", "Chills", "Sweating", "Fatigue"],
+    "self_care": [
+      "Hydrate with electrolyte replacement solutions, clear broths, or coconut water.",
+      "Rest completely and let the stomach settle.",
+      "Do not take anti-diarrheal medications without doctor approval, as they can prevent toxin clearance.",
+      "Ease back into eating with crackers, plain rice, and broth."
+    ],
+    "when_to_see_doctor": "Seek emergency care if symptoms include high fever (>102°F), bloody diarrhea, frequent vomiting preventing fluid retention, or neurological symptoms like blurred vision.",
+    "precautions": "Cook meats thoroughly, refrigerate perishables promptly, avoid cross-contamination of raw and cooked foods, check expiration dates.",
+    "specialist": "Gastroenterologist / Emergency Physician"
+  },
+  "Acid Reflux / GERD": {
+    "category": "Digestive",
+    "description": "A condition where stomach acid frequently flows back into the esophagus, causing heartburn, regurgitation, chest discomfort, and throat irritation.",
+    "risk_level": "Low to Moderate",
+    "duration": "Episodic to chronic",
+    "typical_symptoms": ["Chest congestion", "Nausea", "Sore throat", "Cough", "Abdominal pain"],
+    "self_care": [
+      "Eat smaller, more frequent meals rather than large feasts.",
+      "Avoid lying down for at least 2 to 3 hours after eating.",
+      "Elevate the head of your bed by 6 inches.",
+      "Limit trigger foods such as fatty foods, citrus, tomatoes, chocolate, mint, and caffeine."
+    ],
+    "when_to_see_doctor": "Seek emergency care if chest discomfort is accompanied by radiating jaw or arm pain or shortness of breath. See a doctor if difficulty swallowing (dysphagia) occurs.",
+    "precautions": "Maintain a healthy body weight, avoid tight-fitting clothing around the waist, quit smoking.",
+    "specialist": "Gastroenterologist"
+  },
+  "Asthma Flare-up": {
+    "category": "Respiratory",
+    "description": "A chronic condition where airways narrow, swell, and produce extra mucus, causing acute episodes of wheezing and breathlessness.",
+    "risk_level": "High",
+    "duration": "Hours to days depending on treatment",
+    "typical_symptoms": ["Shortness of breath", "Cough", "Chest congestion", "Fatigue"],
+    "self_care": [
+      "Follow your personalized Asthma Action Plan immediately.",
+      "Use your quick-relief (rescue) inhaler (e.g., Albuterol) as prescribed.",
+      "Sit upright and try to stay calm; practice slow, controlled diaphragmatic breathing.",
+      "Remove yourself immediately from identified triggers (cold air, smoke, dust, animal fur)."
+    ],
+    "when_to_see_doctor": "EMERGENCY: Seek immediate emergency medical assistance if rescue inhaler does not bring relief within 15 minutes, you struggle to speak full sentences, or lips/fingernails turn pale or blue.",
+    "precautions": "Take daily controller medications as prescribed, track peak flow readings, avoid known triggers.",
+    "specialist": "Pulmonologist / Allergist"
+  },
+  "Allergic Dermatitis": {
+    "category": "Dermatological",
+    "description": "An inflammatory skin reaction caused by direct contact with an allergen or substance, resulting in itchy, red, or irritated skin.",
+    "risk_level": "Low",
+    "duration": "1 to 2 weeks after removing trigger",
+    "typical_symptoms": ["Skin rash", "Fatigue"],
+    "self_care": [
+      "Wash the affected skin gently with mild, fragrance-free soap and lukewarm water.",
+      "Apply cool, wet compresses to relieve burning and itching.",
+      "Apply hypoallergenic moisturizing lotions or over-the-counter hydrocortisone cream.",
+      "Trim fingernails and avoid scratching to prevent secondary bacterial infection."
+    ],
+    "when_to_see_doctor": "Consult a doctor if rash is widespread, blistered, shows yellow pus (infection), or involves the face or genitals.",
+    "precautions": "Identify contact allergens (poison ivy, nickel, perfumes, latex), wear protective gloves when handling chemicals.",
+    "specialist": "Dermatologist / Allergist"
+  },
+  "Joint Inflammation / Arthritis": {
+    "category": "Musculoskeletal",
+    "description": "Inflammation and swelling of one or more joints causing stiffness, pain, and restricted mobility.",
+    "risk_level": "Moderate",
+    "duration": "Chronic with episodic flares",
+    "typical_symptoms": ["Joint pain", "Body pain", "Fatigue"],
+    "self_care": [
+      "Balance low-impact physical activity (swimming, cycling, walking) with gentle joint rest.",
+      "Apply warm pads for chronic stiffness or ice packs for acute swelling.",
+      "Maintain a healthy body weight to reduce stress on weight-bearing joints (knees, hips).",
+      "Gentle stretching and mobility exercises daily."
+    ],
+    "when_to_see_doctor": "See a rheumatologist if joint is hot, red, and swollen with sudden fever (possible septic arthritis), or if pain severely limits daily movement.",
+    "precautions": "Use joint-friendly ergonomic tools, avoid repetitive strain, eat an anti-inflammatory diet rich in omega-3s.",
+    "specialist": "Rheumatologist / Orthopedic Specialist"
+  },
+  "Heat Exhaustion": {
+    "category": "Environmental & Systemic",
+    "description": "A heat-related illness resulting from prolonged exposure to high ambient temperatures combined with dehydration and physical exertion.",
+    "risk_level": "Moderate to High",
+    "duration": "Few hours to 24 hours with prompt cooling",
+    "typical_symptoms": ["High fever", "Sweating", "Dizziness", "Headache", "Nausea", "Fatigue", "Body pain"],
+    "self_care": [
+      "Move immediately to a cool, shaded, or air-conditioned environment.",
+      "Lie down and elevate legs slightly.",
+      "Remove tight, excess, or heavy clothing.",
+      "Sip cool water, sports drinks, or rehydration solution (avoid iced drinks which cause stomach cramps).",
+      "Apply cool, damp cloths or mist with water and fan vigorously."
+    ],
+    "when_to_see_doctor": "EMERGENCY: If symptoms worsen, confusion develops, sweating stops despite extreme heat, or body temperature reaches 104°F (40°C), this is Heat Stroke — call emergency services immediately.",
+    "precautions": "Stay well hydrated before outdoor activities in hot weather, wear loose lightweight clothing, take breaks in shade.",
+    "specialist": "Emergency Medicine / General Physician"
+  }
+}

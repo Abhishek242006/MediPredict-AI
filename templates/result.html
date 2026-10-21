@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Clinical Pattern Analysis — MediPredict AI{% endblock %}
+{% block content %}
+<section class="result-container section-shell">
+  <div class="result-nav-bar no-print">
+    <a class="back-link" href="{{ url_for('checker') }}">← Back to Symptom Checker</a>
+    <div class="nav-bar-actions">
+      <button type="button" class="button button-outline button-sm" onclick="window.print()">
+        🖨️ Print Clinical Summary
+      </button>
+      <a class="button button-primary button-sm" href="{{ url_for('checker') }}">
+        + New Assessment
+      </a>
+    </div>
+  </div>
+
+  <!-- Printable Header Badge -->
+  <div class="report-meta-header">
+    <div class="rm-left">
+      <div class="rm-badge">ACADEMIC DEMO REPORT</div>
+      <h1 class="rm-title">Pattern Analysis & Triage Summary</h1>
+      <p class="rm-sub">Generated on {{ generated_at }} · Context: {{ age_group }}, Duration: {{ duration }}</p>
+    </div>
+    <div class="rm-right">
+      <div class="rm-model-badge">Engine: Scikit-learn Classifier</div>
+      <div class="rm-status">Status: Complete</div>
+    </div>
+  </div>
+
+  <!-- Triage Risk Alert Banner -->
+  <div class="triage-banner {{ triage.badge_class }}">
+    <div class="triage-icon">{{ triage.icon }}</div>
+    <div class="triage-content">
+      <div class="triage-top">
+        <span class="triage-title">CLINICAL TRIAGE ASSESSMENT: {{ triage.level|upper }}</span>
+      </div>
+      <p class="triage-desc">{{ triage.message }}</p>
+      {% if triage.red_flags %}
+      <div class="triage-flags">
+        <b>Identified Red Flags:</b>
+        <ul>
+          {% for flag in triage.red_flags %}
+          <li>{{ flag }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Main Grid: Primary Result + Differentials -->
+  <div class="result-main-grid">
+    <!-- Primary Match Card -->
+    <div class="result-card primary-card">
+      <div class="card-eyebrow">
+        <span>PRIMARY MODEL PREDICTION</span>
+        <span class="category-tag">{{ info.category }}</span>
+      </div>
+
+      <div class="prediction-header">
+        <h2 class="prediction-title">{{ prediction }}</h2>
+        <div class="confidence-box">
+          <div class="confidence-val">{{ confidence }}%</div>
+          <div class="confidence-label">Confidence Match</div>
+        </div>
+      </div>
+
+      <div class="confidence-bar-wrap">
+        <div class="confidence-bar-fill" style="width: {{ confidence }}%;"></div>
+      </div>
+
+      <p class="condition-description">{{ info.description }}</p>
+
+      <div class="condition-quick-stats">
+        <div class="cqs-item">
+          <span class="cqs-label">Typical Duration</span>
+          <span class="cqs-val">{{ info.duration }}</span>
+        </div>
+        <div class="cqs-item">
+          <span class="cqs-label">Consult Specialist</span>
+          <span class="cqs-val">{{ info.specialist }}</span>
+        </div>
+        <div class="cqs-item">
+          <span class="cqs-label">Condition Risk</span>
+          <span class="cqs-val">{{ info.risk_level }}</span>
+        </div>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <!-- Selected Symptoms Tags -->
+      <div class="symptoms-section">
+        <h3>Symptoms Evaluated ({{ selected_symptoms|length }} Total)</h3>
+        <div class="symptom-tags-cloud">
+          {% for s in selected_symptoms %}
+          <span class="tag-pill">{{ s }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Differential Diagnoses & Alternative Probabilities -->
+    <div class="differential-card">
+      <div class="diff-header">
+        <span class="diff-icon">⚖️</span>
+        <h3>Differential Diagnoses</h3>
+      </div>
+      <p class="diff-lead">
+        Clinical symptoms frequently overlap. The model evaluated class probabilities across all conditions:
+      </p>
+
+      <div class="differential-list">
+        {% for diff in differentials %}
+        <div class="diff-entry {% if loop.first %}diff-primary{% endif %}">
+          <div class="diff-row">
+            <span class="diff-rank">#{{ loop.index }}</span>
+            <span class="diff-name">{{ diff.condition }}</span>
+            <span class="diff-pct">{{ diff.probability }}%</span>
+          </div>
+          <div class="diff-bar-track">
+            <div class="diff-bar-fill" style="width: {{ diff.probability }}%;"></div>
+          </div>
+          {% if diff.info and diff.info.description %}
+          <div class="diff-caption">{{ diff.info.description[:110] }}...</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="diff-note">
+        <b>Understanding Probabilities:</b>
+        Percentages reflect the algorithmic confidence based on the current synthetic feature space. They are not absolute medical certainties.
+      </div>
+    </div>
+  </div>
+
+  <!-- Medical Guidance & Care Instructions -->
+  <div class="guidance-grid">
+    <!-- Self Care & Home Actions -->
+    <div class="guidance-card">
+      <div class="g-card-header">
+        <span class="g-icon">🍵</span>
+        <h3>Recommended Home Care</h3>
+      </div>
+      <ul class="guidance-list">
+        {% for step in info.self_care %}
+        <li>{{ step }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- When to See a Doctor -->
+    <div class="guidance-card alert-guidance">
+      <div class="g-card-header">
+        <span class="g-icon">🩺</span>
+        <h3>When to Seek Clinical Care</h3>
+      </div>
+      <p class="g-text">{{ info.when_to_see_doctor }}</p>
+      <div class="specialist-box">
+        <b>Recommended Provider:</b> {{ info.specialist }}
+      </div>
+    </div>
+
+    <!-- Precautions & Prevention -->
+    <div class="guidance-card">
+      <div class="g-card-header">
+        <span class="g-icon">🛡️</span>
+        <h3>Precautions & Prevention</h3>
+      </div>
+      <p class="g-text">{{ info.precautions }}</p>
+    </div>
+  </div>
+
+  <!-- Patient Empowerment Checklist -->
+  <div class="doctor-questions-card">
+    <div class="dq-header">
+      <span class="dq-icon">📋</span>
+      <div>
+        <h3>Questions to Ask Your Doctor</h3>
+        <p>Take this summary to your appointment to help guide your discussion with a clinician.</p>
+      </div>
+    </div>
+    <div class="questions-grid">
+      <div class="q-item">✓ "Could these symptoms be related to an acute infection or an environmental reaction?"</div>
+      <div class="q-item">✓ "Are there specific diagnostic tests (swab, blood panel, imaging) you recommend?"</div>
+      <div class="q-item">✓ "What warning signs should prompt me to seek urgent emergency care?"</div>
+      <div class="q-item">✓ "Are over-the-counter medications safe given my medical history?"</div>
+    </div>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="result-actions-row no-print">
+    <a class="button button-primary" href="{{ url_for('checker') }}">
+      Check Another Symptom Set <span>→</span>
+    </a>
+    <a class="button button-outline" href="{{ url_for('conditions') }}">
+      Browse Disease Encyclopedia <span>📚</span>
+    </a>
+    <a class="button button-quiet" href="{{ url_for('history') }}">
+      View Audit History <span>📋</span>
+    </a>
+  </div>
+</section>
+{% endblock %}

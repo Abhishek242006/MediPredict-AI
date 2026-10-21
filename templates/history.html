@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Audit History & Prediction Logs — MediPredict AI{% endblock %}
+{% block content %}
+<section class="page-hero section-shell">
+  <div class="hero-center">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> AUDIT TRAILS & DEMO LOGS</div>
+    <h1>Prediction <span>History.</span></h1>
+    <p>Local SQLite audit log of previous model inference runs. No names, IP addresses, or personal contact details are ever collected.</p>
+  </div>
+</section>
+
+<section class="history-container section-shell">
+  <!-- Summary Cards -->
+  <div class="history-kpis">
+    <div class="kpi-card">
+      <div class="kpi-icon">📊</div>
+      <div class="kpi-content">
+        <span class="kpi-num">{{ total_records }}</span>
+        <span class="kpi-label">Total Predictions Logged</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🎯</div>
+      <div class="kpi-content">
+        <span class="kpi-num">{{ most_common_condition }}</span>
+        <span class="kpi-label">Most Frequent Condition</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🔒</div>
+      <div class="kpi-content">
+        <span class="kpi-num">100% Local</span>
+        <span class="kpi-label">SQLite Database (Zero Cloud Sync)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter & Actions Toolbar -->
+  <div class="history-toolbar">
+    <form action="{{ url_for('history') }}" method="get" class="history-filter-form">
+      <div class="hf-group">
+        <label for="condition">Filter by Condition:</label>
+        <select name="condition" id="condition" onchange="this.form.submit()">
+          <option value="">All Conditions ({{ conditions|length }})</option>
+          {% for c in conditions %}
+          <option value="{{ c }}" {% if condition_filter == c %}selected{% endif %}>{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="hf-group">
+        <label for="risk">Filter by Risk:</label>
+        <select name="risk" id="risk" onchange="this.form.submit()">
+          <option value="">All Risk Levels</option>
+          <option value="Urgent" {% if risk_filter == 'Urgent' %}selected{% endif %}>Urgent Attention</option>
+          <option value="Moderate" {% if risk_filter == 'Moderate' %}selected{% endif %}>Moderate Risk</option>
+          <option value="Low" {% if risk_filter == 'Low' %}selected{% endif %}>Low / Routine</option>
+        </select>
+      </div>
+
+      {% if condition_filter or risk_filter %}
+      <a href="{{ url_for('history') }}" class="button button-quiet button-sm">Clear Filters</a>
+      {% endif %}
+    </form>
+
+    <div class="history-actions">
+      <a href="{{ url_for('export_csv') }}" class="button button-outline button-sm">
+        📥 Export to CSV
+      </a>
+      {% if records %}
+      <form action="{{ url_for('clear_history') }}" method="post" onsubmit="return confirm('Are you sure you want to delete all demo prediction records?');">
+        <button type="submit" class="button button-danger button-sm">
+          🗑️ Clear All
+        </button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Records Table -->
+  {% if records %}
+  <div class="history-table-wrap">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date & Time</th>
+          <th>Model Prediction</th>
+          <th>Confidence</th>
+          <th>Risk Triage</th>
+          <th>Demographics</th>
+          <th>Symptoms Selected</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="col-id">#{{ r.id }}</td>
+          <td class="col-date">{{ r.created_at }}</td>
+          <td class="col-pred">
+            <b>{{ r.prediction }}</b>
+          </td>
+          <td class="col-conf">
+            <span class="conf-pill">{{ r.confidence }}%</span>
+          </td>
+          <td class="col-risk">
+            <span class="badge-risk-tag {% if 'Urgent' in r.risk_level %}brt-urgent{% elif 'Moderate' in r.risk_level %}brt-mod{% else %}brt-low{% endif %}">
+              {{ r.risk_level }}
+            </span>
+          </td>
+          <td class="col-demo">
+            <small>{{ r.patient_age_group }}<br>{{ r.symptom_duration }}</small>
+          </td>
+          <td class="col-syms">
+            <div class="sym-truncate" title="{{ r.symptoms }}">
+              {{ r.symptoms }}
+            </div>
+          </td>
+          <td class="col-action">
+            <form action="{{ url_for('delete_history_item', item_id=r.id) }}" method="post" onsubmit="return confirm('Delete record #{{ r.id }}?');">
+              <button type="submit" class="btn-icon-del" title="Delete record">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="empty-icon">📭</span>
+    <h3>No Prediction Records</h3>
+    <p>There are no past prediction logs matching your criteria. Try running an assessment in the Symptom Checker.</p>
+    <a href="{{ url_for('checker') }}" class="button button-primary">Open Symptom Checker <span>→</span></a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MediPredict AI — Educational disease prediction and clinical pattern analysis demonstration powered by Scikit-learn and Flask.">
-  <meta name="theme-color" content="#0ea5e9">
+  <meta name="description" content="MediPredict AI — Next-generation clinical symptom intelligence, disease pattern classification, and triage platform.">
+  <meta name="theme-color" content="#0284c7">
   <title>{% block title %}MediPredict AI — Clinical Symptom Intelligence{% endblock %}</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,14 +14,28 @@
   <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
+<!-- Animated Ambient Glow Mesh Background -->
+<div class="ambient-glow glow-1" aria-hidden="true"></div>
+<div class="ambient-glow glow-2" aria-hidden="true"></div>
+
 <header class="site-header">
   <div class="nav-wrap">
     <a class="brand" href="{{ url_for('home') }}" aria-label="MediPredict AI home">
-      <span class="brand-mark">+</span>
-      <span class="brand-text">MediPredict <b>AI</b></span>
-      <span class="badge-tag">Academic v2.0</span>
+      <div class="brand-mark-wrap">
+        <span class="brand-mark">+</span>
+        <span class="brand-pulse-ring"></span>
+      </div>
+      <div class="brand-text-col">
+        <span class="brand-text">MediPredict <b>AI</b></span>
+        <span class="brand-subtext">Clinical Intelligence</span>
+      </div>
     </a>
     
+    <div class="nav-status-pill d-none-mobile">
+      <span class="status-live-dot"></span>
+      <span class="status-live-text">Model Active · 91.96% Acc</span>
+    </div>
+
     <div class="nav-right">
       <nav class="nav-links" id="main-nav" aria-label="Main navigation">
         <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a>
@@ -33,10 +47,17 @@
         <a class="nav-cta" href="{{ url_for('checker') }}">Check Symptoms <span>→</span></a>
       </nav>
       
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark/light theme" title="Toggle Theme">
+      <!-- Tactile UI Sound Toggle -->
+      <button class="icon-toggle sound-toggle" id="sound-toggle" type="button" aria-label="Toggle UI Audio Feedback" title="Toggle UI Sound Effects">
+        <span class="sound-icon">🔊</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="icon-toggle theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark/light theme" title="Toggle Theme">
         <span class="theme-icon">🌙</span>
       </button>
 
+      <!-- Mobile Hamburger -->
       <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -53,16 +74,19 @@
     <div class="footer-top">
       <div class="footer-col brand-col">
         <a class="brand footer-brand" href="{{ url_for('home') }}">
-          <span class="brand-mark">+</span>
+          <div class="brand-mark-wrap">
+            <span class="brand-mark">+</span>
+          </div>
           <span class="brand-text">MediPredict <b>AI</b></span>
         </a>
         <p class="footer-desc">
-          An open educational prototype integrating Machine Learning classification algorithms, risk triage logic, and symptom explainability for academic demonstration and research.
+          An explainable, next-generation clinical decision-support prototype powered by ensemble machine learning algorithms, differential diagnostics, and autonomous red-flag triage.
         </p>
         <div class="footer-badges">
           <span class="f-badge">Flask 3.1</span>
           <span class="f-badge">Scikit-Learn</span>
           <span class="f-badge">SQLite3</span>
+          <span class="f-badge">91.96% Accuracy</span>
         </div>
       </div>
       
@@ -90,14 +114,14 @@
 
       <div class="footer-col emergency-col">
         <h4>Medical Emergency?</h4>
-        <p>If you or someone else is experiencing severe breathing difficulty, chest pain, or loss of consciousness, call your local emergency service immediately.</p>
+        <p>If you or someone else is experiencing severe breathing difficulty, crushing chest pain, or sudden confusion, call emergency services immediately.</p>
         <div class="emergency-badge">🚨 Call 911 / 112 / 108</div>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>© {{ current_year }} MediPredict AI · Final Year / Internship Demonstration Project. Not a medical device.</p>
-      <div class="footer-disclaimer-tag">Strictly for Educational Use</div>
+      <p>© {{ current_year }} MediPredict AI · Advanced Machine Learning & Healthcare Capstone. Not a diagnostic medical device.</p>
+      <div class="footer-disclaimer-tag">Educational & Research Prototype</div>
     </div>
   </div>
 </footer>

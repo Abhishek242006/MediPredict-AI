@@ -3,9 +3,13 @@
 {% block content %}
 <section class="page-hero section-shell">
   <div class="hero-center">
-    <div class="eyebrow"><span class="eyebrow-dot"></span> CLINICAL INFERENCE ENGINE</div>
-    <h1>Select your <span>symptoms.</span></h1>
-    <p>Choose from 24 multi-system symptoms below. Our trained classification model evaluates the pattern to return differential probabilities and risk triage.</p>
+    <div class="eyebrow-pill">
+      <span class="eyebrow-dot-pulse"></span>
+      <span>MULTI-SYSTEM INFERENCE ENGINE</span>
+    </div>
+    <h1>Select your <span class="gradient-text">symptoms.</span></h1>
+    <p>Select all symptoms currently experienced. Our trained ensemble classifier will vectorize your selections, compute differential probability distributions, and execute automated emergency triage.</p>
+    
     <div class="step-indicator">
       <span class="step-badge active"><span class="step-num">1</span> Symptom Selection</span>
       <span class="step-line"></span>
@@ -27,11 +31,12 @@
 
     <!-- Quick Scenario Presets -->
     <div class="presets-toolbar">
-      <span class="toolbar-label">Quick Presets:</span>
+      <span class="toolbar-label">⚡ 1-Click Clinical Presets:</span>
       <div class="preset-chips">
         {% for preset in presets %}
         <button type="button" class="preset-chip-btn" data-symptoms="{{ preset.symptoms|join(',') }}">
-          <span class="p-icon">{{ preset.icon }}</span> {{ preset.name }}
+          <span class="p-icon">{{ preset.icon }}</span>
+          <span>{{ preset.name }}</span>
         </button>
         {% endfor %}
       </div>
@@ -41,7 +46,7 @@
     <div class="filter-toolbar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="symptom-search" placeholder="Search any symptom (e.g., cough, fever, vomiting, rash)..." autocomplete="off">
+        <input type="text" id="symptom-search" placeholder="Type to filter symptoms (e.g. cough, fever, vomiting, rash)..." autocomplete="off">
         <button type="button" id="clear-search" class="clear-search-btn" style="display:none;">✕</button>
       </div>
 
@@ -51,11 +56,27 @@
       </div>
     </div>
 
+    <!-- Active Floating Selected Symptoms Tray -->
+    <div class="selected-symptoms-tray" id="selected-tray" style="display: none;">
+      <div class="tray-header">
+        <span class="tray-title">Active Symptoms Selection:</span>
+        <span class="tray-badge" id="tray-count-badge">0 active</span>
+      </div>
+      <div class="tray-tags" id="tray-tags-container">
+        <!-- Dynamically injected active symptom pills with X remove buttons -->
+      </div>
+    </div>
+
     <!-- Category Tabs -->
     <div class="category-tabs" role="tablist">
-      <button type="button" class="tab-btn active" data-category="all" role="tab" aria-selected="true">All ({{ symptoms|length }})</button>
+      <button type="button" class="tab-btn active" data-category="all" role="tab" aria-selected="true">
+        <span>🌐</span> All ({{ symptoms|length }})
+      </button>
       {% for cat_name, cat_syms in categories.items() %}
-      <button type="button" class="tab-btn" data-category="{{ cat_name }}" role="tab" aria-selected="false">{{ cat_name }} ({{ cat_syms|length }})</button>
+      <button type="button" class="tab-btn" data-category="{{ cat_name }}" role="tab" aria-selected="false">
+        <span>{% if 'Respiratory' in cat_name %}🫁{% elif 'General' in cat_name %}♨️{% elif 'Head' in cat_name %}🧠{% elif 'Gastro' in cat_name %}🤢{% else %}🩹{% endif %}</span>
+        {{ cat_name }} ({{ cat_syms|length }})
+      </button>
       {% endfor %}
     </div>
 
@@ -110,8 +131,9 @@
 
       <!-- Action Buttons -->
       <div class="form-submit-row">
-        <button type="submit" class="button button-primary button-lg" id="predict-button">
-          Run Model Inference <span>→</span>
+        <button type="submit" class="button button-primary button-lg button-glow" id="predict-button">
+          <span>Run Model Inference</span>
+          <span class="btn-arrow">→</span>
         </button>
         <button type="reset" class="button button-quiet" id="reset-button">
           Reset Selections
@@ -124,9 +146,34 @@
     </form>
   </div>
 
-  <!-- Sidebar Clinical Notes -->
+  <!-- Sidebar Clinical Notes & Real-time AI Radar Preview -->
   <aside class="checker-sidebar">
-    <div class="sidebar-card">
+    <!-- Real-time Live AI Radar Widget -->
+    <div class="sidebar-card live-ai-radar-card" id="live-radar-card">
+      <div class="radar-header">
+        <span class="radar-dot"></span>
+        <span class="radar-title">Real-Time AI Radar</span>
+        <span class="radar-live-badge">Live</span>
+      </div>
+      <p class="radar-sub" id="radar-hint">Select symptoms on the left to see live model probability updates.</p>
+      
+      <div class="radar-content" id="radar-content" style="display: none;">
+        <div class="radar-pred-name" id="radar-prediction">—</div>
+        <div class="radar-conf-row">
+          <span class="radar-conf-label">Estimated Confidence</span>
+          <span class="radar-conf-val" id="radar-confidence">0%</span>
+        </div>
+        <div class="radar-bar-track">
+          <div class="radar-bar-fill" id="radar-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="radar-diff-list" id="radar-diff-list">
+          <!-- Dynamically populated top differentials -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Emergency Red Flags Card -->
+    <div class="sidebar-card alert-emergency-card">
       <div class="sidebar-header">
         <span class="sb-icon">🚨</span>
         <h3>Emergency Red Flags</h3>
@@ -144,6 +191,7 @@
       </div>
     </div>
 
+    <!-- How It Works Card -->
     <div class="sidebar-card info-card">
       <div class="sidebar-header">
         <span class="sb-icon">💡</span>
@@ -156,16 +204,6 @@
         The trained classifier then computes class probabilities across 16 medical conditions to determine primary and differential diagnoses.
       </p>
       <a class="sidebar-link" href="{{ url_for('analytics') }}">View Model Performance Specs →</a>
-    </div>
-
-    <div class="sidebar-card caution-card">
-      <div class="sidebar-header">
-        <span class="sb-icon">⚠️</span>
-        <h3>Educational Guardrails</h3>
-      </div>
-      <p>
-        Symptom overlap is very high in medicine. A cough could indicate a common cold, asthma, or bronchitis. Real medical diagnosis requires physical examinations, stethoscopes, lab tests, and imaging.
-      </p>
     </div>
   </aside>
 </section>

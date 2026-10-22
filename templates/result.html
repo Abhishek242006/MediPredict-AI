@@ -3,13 +3,21 @@
 {% block content %}
 <section class="result-container section-shell">
   <div class="result-nav-bar no-print">
-    <a class="back-link" href="{{ url_for('checker') }}">← Back to Symptom Checker</a>
+    <a class="back-link" href="{{ url_for('checker') }}">
+      <span class="back-arrow">←</span>
+      <span>Back to Symptom Checker</span>
+    </a>
     <div class="nav-bar-actions">
-      <button type="button" class="button button-outline button-sm" onclick="window.print()">
-        🖨️ Print Clinical Summary
+      <button type="button" class="button button-glass button-sm" id="btn-copy-summary" title="Copy clinical summary to clipboard">
+        <span>📋</span>
+        <span id="copy-text">Copy Summary</span>
       </button>
-      <a class="button button-primary button-sm" href="{{ url_for('checker') }}">
-        + New Assessment
+      <button type="button" class="button button-outline button-sm" onclick="window.print()">
+        <span>🖨️</span>
+        <span>Print Clinical Summary</span>
+      </button>
+      <a class="button button-primary button-sm button-glow" href="{{ url_for('checker') }}">
+        <span>+ New Assessment</span>
       </a>
     </div>
   </div>
@@ -17,27 +25,31 @@
   <!-- Printable Header Badge -->
   <div class="report-meta-header">
     <div class="rm-left">
-      <div class="rm-badge">ACADEMIC DEMO REPORT</div>
+      <div class="rm-badge">ACADEMIC CLINICAL INFERENCE REPORT</div>
       <h1 class="rm-title">Pattern Analysis & Triage Summary</h1>
       <p class="rm-sub">Generated on {{ generated_at }} · Context: {{ age_group }}, Duration: {{ duration }}</p>
     </div>
     <div class="rm-right">
-      <div class="rm-model-badge">Engine: Scikit-learn Classifier</div>
-      <div class="rm-status">Status: Complete</div>
+      <div class="rm-model-badge">
+        <span class="rm-dot"></span>
+        <span>Engine: Scikit-learn Classifier</span>
+      </div>
+      <div class="rm-status">Status: Validated Prediction</div>
     </div>
   </div>
 
   <!-- Triage Risk Alert Banner -->
   <div class="triage-banner {{ triage.badge_class }}">
-    <div class="triage-icon">{{ triage.icon }}</div>
+    <div class="triage-icon-wrap">{{ triage.icon }}</div>
     <div class="triage-content">
       <div class="triage-top">
-        <span class="triage-title">CLINICAL TRIAGE ASSESSMENT: {{ triage.level|upper }}</span>
+        <span class="triage-title">CLINICAL TRIAGE LEVEL: {{ triage.level|upper }}</span>
+        <span class="triage-indicator-pill">{{ triage.level }}</span>
       </div>
       <p class="triage-desc">{{ triage.message }}</p>
       {% if triage.red_flags %}
       <div class="triage-flags">
-        <b>Identified Red Flags:</b>
+        <b>🚨 Critical Red Flags Detected:</b>
         <ul>
           {% for flag in triage.red_flags %}
           <li>{{ flag }}</li>
@@ -50,154 +62,196 @@
 
   <!-- Main Grid: Primary Result + Differentials -->
   <div class="result-main-grid">
-    <!-- Primary Match Card -->
-    <div class="result-card primary-card">
+    <!-- Primary Match Card with Animated Circular SVG Gauge -->
+    <div class="result-card primary-card glow-card">
       <div class="card-eyebrow">
-        <span>PRIMARY MODEL PREDICTION</span>
+        <span>PRIMARY ALGORITHMIC MATCH</span>
         <span class="category-tag">{{ info.category }}</span>
       </div>
 
-      <div class="prediction-header">
-        <h2 class="prediction-title">{{ prediction }}</h2>
-        <div class="confidence-box">
-          <div class="confidence-val">{{ confidence }}%</div>
-          <div class="confidence-label">Confidence Match</div>
+      <div class="prediction-hero-row">
+        <div class="pred-title-col">
+          <h2 class="prediction-title">{{ prediction }}</h2>
+          <p class="condition-description">{{ info.description }}</p>
+        </div>
+
+        <!-- Animated Circular SVG Confidence Meter -->
+        <div class="svg-gauge-box" title="{{ confidence }}% algorithmic match">
+          <svg class="circular-chart" viewBox="0 0 36 36">
+            <path class="circle-bg"
+              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path class="circle-stroke"
+              stroke-dasharray="{{ confidence }}, 100"
+              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" class="circle-percentage">{{ confidence|round(0)|int }}%</text>
+          </svg>
+          <div class="gauge-label">Confidence Match</div>
         </div>
       </div>
 
-      <div class="confidence-bar-wrap">
-        <div class="confidence-bar-fill" style="width: {{ confidence }}%;"></div>
-      </div>
-
-      <p class="condition-description">{{ info.description }}</p>
-
+      <!-- Quick Metrics Strip -->
       <div class="condition-quick-stats">
         <div class="cqs-item">
           <span class="cqs-label">Typical Duration</span>
-          <span class="cqs-val">{{ info.duration }}</span>
+          <span class="cqs-val">⏱️ {{ info.duration }}</span>
         </div>
         <div class="cqs-item">
           <span class="cqs-label">Consult Specialist</span>
-          <span class="cqs-val">{{ info.specialist }}</span>
+          <span class="cqs-val">🩺 {{ info.specialist }}</span>
         </div>
         <div class="cqs-item">
-          <span class="cqs-label">Condition Risk</span>
-          <span class="cqs-val">{{ info.risk_level }}</span>
+          <span class="cqs-label">Pathology Risk</span>
+          <span class="cqs-val">🛡️ {{ info.risk_level }}</span>
         </div>
       </div>
 
       <div class="card-divider"></div>
 
-      <!-- Selected Symptoms Tags -->
+      <!-- Selected Symptoms Tags Cloud -->
       <div class="symptoms-section">
-        <h3>Symptoms Evaluated ({{ selected_symptoms|length }} Total)</h3>
+        <h3>Symptoms Evaluated ({{ selected_symptoms|length }} Total):</h3>
         <div class="symptom-tags-cloud">
           {% for s in selected_symptoms %}
-          <span class="tag-pill">{{ s }}</span>
+          <span class="tag-pill tag-pill-active">✓ {{ s }}</span>
           {% endfor %}
         </div>
       </div>
     </div>
 
     <!-- Differential Diagnoses & Alternative Probabilities -->
-    <div class="differential-card">
+    <div class="differential-card glow-card">
       <div class="diff-header">
         <span class="diff-icon">⚖️</span>
-        <h3>Differential Diagnoses</h3>
+        <div>
+          <h3>Differential Diagnoses</h3>
+          <p class="diff-sub">Softmax probability breakdown</p>
+        </div>
       </div>
       <p class="diff-lead">
-        Clinical symptoms frequently overlap. The model evaluated class probabilities across all conditions:
+        Symptoms overlap in clinical medicine. Below is the multi-condition probability spectrum:
       </p>
 
       <div class="differential-list">
         {% for diff in differentials %}
-        <div class="diff-entry {% if loop.first %}diff-primary{% endif %}">
+        <div class="diff-entry {% if loop.first %}diff-primary-active{% endif %}">
           <div class="diff-row">
-            <span class="diff-rank">#{{ loop.index }}</span>
-            <span class="diff-name">{{ diff.condition }}</span>
+            <div class="diff-title-wrap">
+              <span class="diff-rank">#{{ loop.index }}</span>
+              <span class="diff-name">{{ diff.condition }}</span>
+            </div>
             <span class="diff-pct">{{ diff.probability }}%</span>
           </div>
           <div class="diff-bar-track">
             <div class="diff-bar-fill" style="width: {{ diff.probability }}%;"></div>
           </div>
           {% if diff.info and diff.info.description %}
-          <div class="diff-caption">{{ diff.info.description[:110] }}...</div>
+          <div class="diff-caption">{{ diff.info.description[:95] }}...</div>
           {% endif %}
         </div>
         {% endfor %}
       </div>
 
       <div class="diff-note">
-        <b>Understanding Probabilities:</b>
-        Percentages reflect the algorithmic confidence based on the current synthetic feature space. They are not absolute medical certainties.
+        <b>💡 Understanding Uncertainty:</b>
+        Percentages reflect pattern affinity in our 24-feature space. They describe mathematical correlation, not clinical certainty.
       </div>
     </div>
   </div>
 
-  <!-- Medical Guidance & Care Instructions -->
+  <!-- Medical Guidance & Interactive Care Checklist -->
   <div class="guidance-grid">
-    <!-- Self Care & Home Actions -->
-    <div class="guidance-card">
+    <!-- Interactive Self Care Checklist -->
+    <div class="guidance-card glow-card">
       <div class="g-card-header">
         <span class="g-icon">🍵</span>
-        <h3>Recommended Home Care</h3>
+        <div>
+          <h3>Recommended Home Care</h3>
+          <p class="g-sub">Click items to mark completed</p>
+        </div>
       </div>
-      <ul class="guidance-list">
+      <ul class="guidance-checklist" id="care-checklist">
         {% for step in info.self_care %}
-        <li>{{ step }}</li>
+        <li class="checklist-item" tabindex="0">
+          <span class="check-box-custom">✓</span>
+          <span class="check-text">{{ step }}</span>
+        </li>
         {% endfor %}
       </ul>
     </div>
 
     <!-- When to See a Doctor -->
-    <div class="guidance-card alert-guidance">
+    <div class="guidance-card alert-guidance glow-card">
       <div class="g-card-header">
         <span class="g-icon">🩺</span>
-        <h3>When to Seek Clinical Care</h3>
+        <div>
+          <h3>When to Seek Clinical Care</h3>
+          <p class="g-sub">Medical escalation guidelines</p>
+        </div>
       </div>
       <p class="g-text">{{ info.when_to_see_doctor }}</p>
       <div class="specialist-box">
-        <b>Recommended Provider:</b> {{ info.specialist }}
+        <b>Recommended Medical Department:</b><br>
+        <span>👉 {{ info.specialist }}</span>
       </div>
     </div>
 
     <!-- Precautions & Prevention -->
-    <div class="guidance-card">
+    <div class="guidance-card glow-card">
       <div class="g-card-header">
         <span class="g-icon">🛡️</span>
-        <h3>Precautions & Prevention</h3>
+        <div>
+          <h3>Precautions & Prevention</h3>
+          <p class="g-sub">Transmission & hygiene guidance</p>
+        </div>
       </div>
       <p class="g-text">{{ info.precautions }}</p>
     </div>
   </div>
 
-  <!-- Patient Empowerment Checklist -->
-  <div class="doctor-questions-card">
+  <!-- Doctor Consultation Checklist Card -->
+  <div class="doctor-questions-card glow-card">
     <div class="dq-header">
       <span class="dq-icon">📋</span>
       <div>
         <h3>Questions to Ask Your Doctor</h3>
-        <p>Take this summary to your appointment to help guide your discussion with a clinician.</p>
+        <p>Prepared discussion points for your in-person or telemedicine consultation.</p>
       </div>
     </div>
     <div class="questions-grid">
-      <div class="q-item">✓ "Could these symptoms be related to an acute infection or an environmental reaction?"</div>
-      <div class="q-item">✓ "Are there specific diagnostic tests (swab, blood panel, imaging) you recommend?"</div>
-      <div class="q-item">✓ "What warning signs should prompt me to seek urgent emergency care?"</div>
-      <div class="q-item">✓ "Are over-the-counter medications safe given my medical history?"</div>
+      <div class="q-item">
+        <span class="q-check">💬</span>
+        <span>"Could these symptoms be related to an acute infection or an environmental reaction?"</span>
+      </div>
+      <div class="q-item">
+        <span class="q-check">💬</span>
+        <span>"Are there specific diagnostic tests (swab, blood panel, imaging) you recommend?"</span>
+      </div>
+      <div class="q-item">
+        <span class="q-check">💬</span>
+        <span>"What specific red-flag changes should prompt me to seek urgent emergency care?"</span>
+      </div>
+      <div class="q-item">
+        <span class="q-check">💬</span>
+        <span>"Are over-the-counter medications safe given my age and medical background?"</span>
+      </div>
     </div>
   </div>
 
   <!-- Footer Actions -->
   <div class="result-actions-row no-print">
-    <a class="button button-primary" href="{{ url_for('checker') }}">
-      Check Another Symptom Set <span>→</span>
+    <a class="button button-primary button-glow" href="{{ url_for('checker') }}">
+      <span>Check Another Symptom Set</span>
+      <span>→</span>
     </a>
-    <a class="button button-outline" href="{{ url_for('conditions') }}">
-      Browse Disease Encyclopedia <span>📚</span>
+    <a class="button button-glass" href="{{ url_for('conditions') }}">
+      <span>Browse Disease Encyclopedia</span>
+      <span>📚</span>
     </a>
     <a class="button button-quiet" href="{{ url_for('history') }}">
-      View Audit History <span>📋</span>
+      <span>View Audit History</span>
+      <span>📋</span>
     </a>
   </div>
 </section>

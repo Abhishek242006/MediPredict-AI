@@ -1,14 +1,134 @@
 /**
- * MediPredict AI — Interactive Client-Side Experience Engine
- * Manages theme switching, audio synthesizer, responsive navigation,
- * live symptom filtering, presets, floating tray, real-time AI radar preview,
- * interactive self-care checklist, and clipboard clinical summary export.
+ * MediPredict AI — Interactive Cyber-Clinical Experience Engine
+ * Features:
+ * - Neural Particle Canvas Mesh (60fps dynamic synaptic node background)
+ * - Web Audio API Synthesizer (Cyber clicks, telemetry alerts, and chime harmonics)
+ * - Voice Input Symptom Recognition (Speech-to-Text auto symptom matching)
+ * - AI Neural Audio Briefing (Web Speech API clinical voice synthesis)
+ * - Real-Time AI Radar (Debounced live differential probability inference)
+ * - Floating Symptom Dock & Fast-Dismiss Active Tray
+ * - Holographic Laser Scanner Simulation
+ * - 3D Tilt Card Perspective Engine
+ * - Interactive Self-Care Checklists & One-Click Clipboard Medical Report
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ---------------------------------------------------------------------------
-  // 1. Dark / Light Theme Controller
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // 1. NEURAL PARTICLE CANVAS BACKGROUND
+  // ===========================================================================
+  const canvas = document.querySelector("#neural-canvas");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let animationFrameId = null;
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const getThemeColor = () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      return isDark ? { node: "rgba(6, 182, 212, 0.75)", line: "rgba(139, 92, 246, 0.15)" }
+                    : { node: "rgba(2, 132, 199, 0.45)", line: "rgba(2, 132, 199, 0.08)" };
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const count = Math.min(65, Math.max(25, Math.floor(window.innerWidth / 30)));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: (Math.random() - 0.5) * 0.7,
+          radius: Math.random() * 1.8 + 1
+        });
+      }
+    };
+
+    const drawParticles = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const colors = getThemeColor();
+      const maxDist = 115;
+      const mouseDist = 140;
+
+      // Draw particle nodes
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = colors.node;
+        ctx.fill();
+
+        // Connect nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDist) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = colors.line;
+            ctx.lineWidth = 1 - dist / maxDist;
+            ctx.stroke();
+          }
+        }
+
+        // Connect to mouse pointer
+        const mdx = p.x - mouseX;
+        const mdy = p.y - mouseY;
+        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mDist < mouseDist) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouseX, mouseY);
+          ctx.strokeStyle = "rgba(6, 182, 212, " + (0.35 * (1 - mDist / mouseDist)) + ")";
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(drawParticles);
+    };
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    window.addEventListener("mouseleave", () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        animationFrameId = requestAnimationFrame(drawParticles);
+      }
+    });
+
+    resizeCanvas();
+    drawParticles();
+  }
+
+  // ===========================================================================
+  // 2. THEME SWITCHER
+  // ===========================================================================
   const themeToggle = document.querySelector("#theme-toggle");
   const htmlRoot = document.documentElement;
 
@@ -35,9 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // 2. Web Audio API Tactile Sound Engine
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // 3. CYBER-CLINICAL WEB AUDIO API SYNTHESIZER
+  // ===========================================================================
   const soundToggle = document.querySelector("#sound-toggle");
   let audioCtx = null;
   let isSoundEnabled = localStorage.getItem("medipredict_sound") !== "disabled";
@@ -85,20 +205,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const now = audioCtx.currentTime;
 
       osc.type = "sine";
-      osc.frequency.setValueAtTime(680, now);
-      osc.frequency.exponentialRampToValueAtTime(320, now + 0.045);
+      osc.frequency.setValueAtTime(720, now);
+      osc.frequency.exponentialRampToValueAtTime(340, now + 0.04);
 
       gain.gain.setValueAtTime(0.04, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.05);
-    } catch (_) {
-      // AudioContext unavailable or restricted
-    }
+      osc.stop(now + 0.045);
+    } catch (_) {}
   }
 
   function playSuccessChime() {
@@ -108,11 +226,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!audioCtx) return;
       const now = audioCtx.currentTime;
 
-      // Note 1
       const osc1 = audioCtx.createOscillator();
       const gain1 = audioCtx.createGain();
       osc1.type = "sine";
-      osc1.frequency.setValueAtTime(523.25, now); // C5
+      osc1.frequency.setValueAtTime(523.25, now);
       gain1.gain.setValueAtTime(0.05, now);
       gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
       osc1.connect(gain1);
@@ -120,25 +237,42 @@ document.addEventListener("DOMContentLoaded", () => {
       osc1.start(now);
       osc1.stop(now + 0.12);
 
-      // Note 2
       const osc2 = audioCtx.createOscillator();
       const gain2 = audioCtx.createGain();
       osc2.type = "sine";
-      osc2.frequency.setValueAtTime(659.25, now + 0.07); // E5
-      gain2.gain.setValueAtTime(0.06, now + 0.07);
+      osc2.frequency.setValueAtTime(783.99, now + 0.06);
+      gain2.gain.setValueAtTime(0.06, now + 0.06);
       gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
       osc2.connect(gain2);
       gain2.connect(audioCtx.destination);
-      osc2.start(now + 0.07);
+      osc2.start(now + 0.06);
       osc2.stop(now + 0.22);
-    } catch (_) {
-      // AudioContext unavailable
-    }
+    } catch (_) {}
   }
 
-  // ---------------------------------------------------------------------------
-  // 3. Responsive Mobile Menu Toggle
-  // ---------------------------------------------------------------------------
+  function playScanSound() {
+    if (!isSoundEnabled) return;
+    try {
+      initAudio();
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(350, now);
+      osc.frequency.exponentialRampToValueAtTime(980, now + 0.18);
+      gain.gain.setValueAtTime(0.025, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.19);
+    } catch (_) {}
+  }
+
+  // ===========================================================================
+  // 4. RESPONSIVE MOBILE MENU
+  // ===========================================================================
   const menuToggle = document.querySelector("#menu-toggle");
   const navLinks = document.querySelector("#main-nav");
 
@@ -157,9 +291,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------------------------------------------------------------------
-  // 4. Symptom Checker Core Interactivity & Live AI Radar
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // 5. 3D CARD TILT PERSPECTIVE
+  // ===========================================================================
+  const tiltCards = document.querySelectorAll(".tilt-card");
+  tiltCards.forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const tiltX = (y - centerY) / centerY * -6;
+      const tiltY = (x - centerX) / centerX * 6;
+
+      card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateY(-2px)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+    });
+  });
+
+  // ===========================================================================
+  // 6. SYMPTOM CHECKER, LIVE AI RADAR & VOICE INPUT
+  // ===========================================================================
   const symptomForm = document.querySelector("#symptom-form");
   if (symptomForm) {
     const checkboxes = Array.from(symptomForm.querySelectorAll('input[name="symptoms"]'));
@@ -173,13 +329,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const symptomCards = Array.from(document.querySelectorAll(".symptom-card"));
     const noResultsNotice = document.querySelector("#no-search-results");
     const presetBtns = Array.from(document.querySelectorAll(".preset-chip-btn"));
+    const laserScanner = document.querySelector("#laser-scanner");
 
-    // Floating Tray Elements
+    // Tray & Radar Elements
     const trayElement = document.querySelector("#selected-tray");
     const trayTagsContainer = document.querySelector("#tray-tags-container");
     const trayCountBadge = document.querySelector("#tray-count-badge");
-
-    // Real-Time AI Radar Elements
     const radarHint = document.querySelector("#radar-hint");
     const radarContent = document.querySelector("#radar-content");
     const radarPrediction = document.querySelector("#radar-prediction");
@@ -190,17 +345,24 @@ document.addEventListener("DOMContentLoaded", () => {
     let radarTimer = null;
     let radarAbortController = null;
 
-    // Synchronize UI States (Count, Tray, Card Highlights, and Live Radar)
+    // Laser Scanner trigger
+    function triggerLaserScan() {
+      if (laserScanner) {
+        laserScanner.classList.add("scanning");
+        playScanSound();
+        setTimeout(() => {
+          laserScanner.classList.remove("scanning");
+        }, 1800);
+      }
+    }
+
+    // Synchronize UI States
     const updateAllStates = () => {
       const checkedBoxes = checkboxes.filter(cb => cb.checked);
       const count = checkedBoxes.length;
 
-      // 1. Update counter pill
-      if (countDisplay) {
-        countDisplay.textContent = String(count);
-      }
+      if (countDisplay) countDisplay.textContent = String(count);
 
-      // 2. Update visual card borders
       symptomCards.forEach(card => {
         const input = card.querySelector('input[type="checkbox"]');
         if (input && input.checked) {
@@ -210,13 +372,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // 3. Update Floating Selected Symptoms Tray
+      // Floating Tray
       if (trayElement && trayTagsContainer) {
         if (count > 0) {
           trayElement.style.display = "block";
-          if (trayCountBadge) {
-            trayCountBadge.textContent = `${count} active`;
-          }
+          if (trayCountBadge) trayCountBadge.textContent = `${count} active`;
           trayTagsContainer.innerHTML = checkedBoxes.map(cb => {
             const card = cb.closest(".symptom-card");
             const icon = card ? (card.querySelector(".card-icon")?.textContent || "•") : "•";
@@ -235,11 +395,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // 4. Trigger Real-Time AI Radar Preview (Debounced)
+      // Live AI Radar
       triggerLiveRadar(checkedBoxes);
     };
 
-    // Live AI Radar Preview via API
     function triggerLiveRadar(checkedBoxes) {
       if (!radarContent || !radarHint) return;
 
@@ -259,19 +418,14 @@ document.addEventListener("DOMContentLoaded", () => {
       radarHint.style.display = "none";
       radarContent.style.display = "block";
 
-      // Debounce API call by 250ms for smooth typing / fast clicking
       radarTimer = setTimeout(() => {
         radarAbortController = new AbortController();
         const symptomKeys = checkedBoxes.map(cb => cb.value);
 
         fetch("/api/predict", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            symptoms: symptomKeys
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ symptoms: symptomKeys }),
           signal: radarAbortController.signal
         })
           .then(res => res.json())
@@ -295,14 +449,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           })
           .catch(err => {
-            if (err.name !== "AbortError") {
-              // Silently handle transient network errors
-            }
+            if (err.name !== "AbortError") {}
           });
       }, 250);
     }
 
-    // Delegate Tray Chip Removal Click
+    // Tray removal delegation
     if (trayTagsContainer) {
       trayTagsContainer.addEventListener("click", (e) => {
         const removeBtn = e.target.closest(".tray-chip-remove");
@@ -318,7 +470,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Checkbox Listeners
     checkboxes.forEach(cb => {
       cb.addEventListener("change", () => {
         playSoftClick();
@@ -326,7 +477,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Clear All Button
     if (clearAllBtn) {
       clearAllBtn.addEventListener("click", () => {
         checkboxes.forEach(cb => { cb.checked = false; });
@@ -335,16 +485,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Reset Button
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
-        setTimeout(() => {
-          updateAllStates();
-        }, 15);
+        setTimeout(updateAllStates, 15);
       });
     }
 
-    // Category Tabs Filtering
+    // Tabs & Filters
     let currentCategory = "all";
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -360,7 +507,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Search Filtering
     if (searchInput) {
       searchInput.addEventListener("input", () => {
         if (clearSearchBtn) {
@@ -381,7 +527,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Unified filtering logic combining Category Tabs and Search
     function applyFilters() {
       const query = (searchInput ? searchInput.value.trim().toLowerCase() : "");
       let visibleCount = 0;
@@ -407,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Quick Preset Chips
+    // Presets
     presetBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         const syms = (btn.getAttribute("data-symptoms") || "").split(",").map(s => s.trim());
@@ -415,15 +560,102 @@ document.addEventListener("DOMContentLoaded", () => {
           cb.checked = syms.includes(cb.value);
         });
         playSuccessChime();
+        triggerLaserScan();
         updateAllStates();
 
-        // Visual pulse feedback
         btn.style.transform = "scale(0.96)";
         setTimeout(() => { btn.style.transform = ""; }, 150);
       });
     });
 
-    // URL Query Parameter Presets (e.g. ?preset=cold_flu)
+    // Voice Input (Speech-to-Text Auto Match)
+    const voiceBtn = document.querySelector("#btn-voice-input");
+    const voiceStatusPill = document.querySelector("#voice-status-pill");
+    const voiceStatusText = document.querySelector("#voice-status-text");
+
+    if (voiceBtn) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        voiceBtn.style.opacity = "0.5";
+        voiceBtn.title = "Speech recognition is supported in Chrome, Edge, and Safari.";
+      } else {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        let isListening = false;
+
+        voiceBtn.addEventListener("click", () => {
+          if (isListening) {
+            recognition.stop();
+          } else {
+            try {
+              recognition.start();
+            } catch (_) {}
+          }
+        });
+
+        recognition.onstart = () => {
+          isListening = true;
+          voiceBtn.classList.add("is-listening");
+          if (voiceStatusPill) voiceStatusPill.style.display = "flex";
+          if (voiceStatusText) voiceStatusText.textContent = "🎙️ Listening... Speak your symptoms (e.g. 'fever and headache')";
+          playSoftClick();
+        };
+
+        recognition.onresult = (event) => {
+          const transcript = (event.results[0][0].transcript || "").toLowerCase();
+          if (voiceStatusText) voiceStatusText.textContent = `Heard: "${transcript}" — Analyzing patterns...`;
+
+          let matchedCount = 0;
+          checkboxes.forEach(cb => {
+            const val = cb.value.toLowerCase().replace(/_/g, " ");
+            const card = cb.closest(".symptom-card");
+            const label = card ? (card.querySelector(".card-title")?.textContent || "").toLowerCase() : "";
+
+            const words = val.split(" ").concat(label.split(" "));
+            const isMatch = words.some(w => w.length > 3 && transcript.includes(w));
+
+            if (isMatch) {
+              cb.checked = true;
+              matchedCount++;
+            }
+          });
+
+          if (matchedCount > 0) {
+            playSuccessChime();
+            triggerLaserScan();
+            updateAllStates();
+            if (voiceStatusText) voiceStatusText.textContent = `✓ Auto-selected ${matchedCount} symptoms matching speech!`;
+            setTimeout(() => {
+              if (voiceStatusPill) voiceStatusPill.style.display = "none";
+            }, 3000);
+          } else {
+            if (voiceStatusText) voiceStatusText.textContent = "No direct symptom match found in spoken phrase. Try again.";
+            setTimeout(() => {
+              if (voiceStatusPill) voiceStatusPill.style.display = "none";
+            }, 2500);
+          }
+        };
+
+        recognition.onerror = () => {
+          isListening = false;
+          voiceBtn.classList.remove("is-listening");
+          if (voiceStatusText) voiceStatusText.textContent = "Microphone input paused. Click mic to retry.";
+          setTimeout(() => {
+            if (voiceStatusPill) voiceStatusPill.style.display = "none";
+          }, 2000);
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          voiceBtn.classList.remove("is-listening");
+        };
+      }
+    }
+
+    // URL Query Parameter Presets
     const urlParams = new URLSearchParams(window.location.search);
     const presetParam = urlParams.get("preset");
     if (presetParam) {
@@ -436,12 +668,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (presetParam === "covid_watch" && pSyms.includes("loss_of_smell_taste")) return true;
         return false;
       });
-      if (matchingBtn) {
-        matchingBtn.click();
-      }
+      if (matchingBtn) matchingBtn.click();
     }
 
-    // Form Submission Validation & Feedback
+    // Form submit validation
     symptomForm.addEventListener("submit", (e) => {
       const selected = checkboxes.filter(cb => cb.checked);
       if (selected.length === 0) {
@@ -450,6 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      triggerLaserScan();
       if (predictBtn) {
         predictBtn.disabled = true;
         predictBtn.innerHTML = "Computing Model Inference… <span>⚙️</span>";
@@ -457,13 +688,72 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Initial state calculation
     updateAllStates();
   }
 
-  // ---------------------------------------------------------------------------
-  // 5. Result Page: Interactive Self-Care Checklist
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // 7. RESULT PAGE: AI NEURAL AUDIO BRIEFING (VOICE SYNTHESIS)
+  // ===========================================================================
+  const voiceBriefingBtn = document.querySelector("#btn-play-voice-briefing");
+  const audioEqualizer = document.querySelector("#audio-equalizer");
+
+  if (voiceBriefingBtn && window.speechSynthesis) {
+    let isSpeaking = false;
+
+    voiceBriefingBtn.addEventListener("click", () => {
+      if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        stopAudioBriefing();
+        return;
+      }
+
+      const predTitle = document.querySelector(".prediction-title")?.textContent.trim() || "health condition";
+      const confValue = document.querySelector(".circle-percentage")?.textContent.trim() || "";
+      const triageMessage = document.querySelector(".triage-desc")?.textContent.trim() || "";
+      const specialist = document.querySelector(".specialist-box span")?.textContent.trim() || "General Physician";
+
+      const textToSpeak = `MediPredict clinical neural assessment complete. Primary algorithmic pattern match is ${predTitle}, with an estimated confidence of ${confValue}. Clinical guidance: ${triageMessage}. Recommended specialist: ${specialist}. Please remember this assessment is for educational reference. Consult a licensed medical practitioner.`;
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.04;
+
+      // Pick high quality voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Samantha"))) || voices[0];
+      if (preferredVoice) utterance.voice = preferredVoice;
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        if (audioEqualizer) audioEqualizer.style.display = "flex";
+        const btnText = voiceBriefingBtn.querySelector("#btn-audio-text");
+        if (btnText) btnText.textContent = "Stop AI Voice Briefing";
+        voiceBriefingBtn.classList.add("button-quiet");
+      };
+
+      utterance.onend = () => {
+        stopAudioBriefing();
+      };
+
+      utterance.onerror = () => {
+        stopAudioBriefing();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    });
+
+    function stopAudioBriefing() {
+      isSpeaking = false;
+      if (audioEqualizer) audioEqualizer.style.display = "none";
+      const btnText = voiceBriefingBtn.querySelector("#btn-audio-text");
+      if (btnText) btnText.textContent = "Play AI Voice Briefing";
+      voiceBriefingBtn.classList.remove("button-quiet");
+    }
+  }
+
+  // ===========================================================================
+  // 8. RESULT PAGE: INTERACTIVE CHECKLIST
+  // ===========================================================================
   const checklistItems = document.querySelectorAll("#care-checklist .checklist-item");
   if (checklistItems.length > 0) {
     checklistItems.forEach(item => {
@@ -486,9 +776,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------------------------------------------------------------------
-  // 6. Result Page: Copy Clinical Summary to Clipboard
-  // ---------------------------------------------------------------------------
+  // ===========================================================================
+  // 9. RESULT PAGE: COPY CLINICAL SUMMARY TO CLIPBOARD
+  // ===========================================================================
   const copySummaryBtn = document.querySelector("#btn-copy-summary");
   if (copySummaryBtn) {
     copySummaryBtn.addEventListener("click", () => {

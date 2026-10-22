@@ -46,7 +46,11 @@
     <div class="filter-toolbar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="symptom-search" placeholder="Type to filter symptoms (e.g. cough, fever, vomiting, rash)..." autocomplete="off">
+        <input type="text" id="symptom-search" placeholder="Type or click mic to speak (e.g. cough, fever, vomiting)..." autocomplete="off">
+        <button type="button" id="btn-voice-input" class="voice-search-btn" title="Click to speak symptoms (Voice Input)" aria-label="Voice Input">
+          <span class="mic-icon">🎙️</span>
+          <span class="mic-pulse"></span>
+        </button>
         <button type="button" id="clear-search" class="clear-search-btn" style="display:none;">✕</button>
       </div>
 
@@ -54,6 +58,12 @@
         <span class="selected-pill"><b id="selected-count">0</b> of {{ symptoms|length }} selected</span>
         <button type="button" id="btn-clear-all" class="btn-text-action">Clear All</button>
       </div>
+    </div>
+
+    <!-- Real-Time Voice Input Status HUD -->
+    <div id="voice-status-pill" class="voice-status-pill" style="display: none;">
+      <span class="voice-wave-dot"></span>
+      <span id="voice-status-text">Listening for symptoms... Speak clearly (e.g. "fever and headache")</span>
     </div>
 
     <!-- Active Floating Selected Symptoms Tray -->
@@ -103,6 +113,11 @@
         </div>
       </div>
 
+      <!-- Laser Scanner Beam Overlay -->
+      <div class="laser-scanner-track" id="laser-scanner">
+        <div class="laser-scanner-beam"></div>
+      </div>
+
       <!-- Symptom Checkbox Grid -->
       <div class="symptom-cards-grid" id="symptom-grid">
         {% for s in symptoms %}
@@ -110,9 +125,11 @@
         {% for cat_name, cat_syms in categories.items() %}
           {% if s in cat_syms %}{% set s_cat = cat_name %}{% endif %}
         {% endfor %}
-        <label class="symptom-card" data-symptom-id="{{ s }}" data-category="{{ s_cat }}">
+        <label class="symptom-card tilt-card" data-symptom-id="{{ s }}" data-category="{{ s_cat }}">
           <input type="checkbox" name="symptoms" value="{{ s }}" class="symptom-checkbox">
           <div class="card-inner">
+            <span class="card-crosshair ch-tl"></span>
+            <span class="card-crosshair ch-br"></span>
             <div class="card-top">
               <span class="card-icon">{{ icons[s] }}</span>
               <span class="custom-checkbox"></span>

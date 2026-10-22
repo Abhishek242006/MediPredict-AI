@@ -17,6 +17,7 @@
 <!-- Animated Ambient Glow Mesh Background -->
 <div class="ambient-glow glow-1" aria-hidden="true"></div>
 <div class="ambient-glow glow-2" aria-hidden="true"></div>
+<canvas id="neural-canvas" class="neural-canvas" aria-hidden="true"></canvas>
 
 <header class="site-header">
   <div class="nav-wrap">
@@ -31,9 +32,22 @@
       </div>
     </a>
     
-    <div class="nav-status-pill d-none-mobile">
-      <span class="status-live-dot"></span>
-      <span class="status-live-text">Model Active · 91.96% Acc</span>
+    <!-- Cyber Biometric ECG & Telemetry HUD -->
+    <div class="nav-telemetry-hud d-none-mobile">
+      <div class="telemetry-item">
+        <span class="telemetry-dot-pulse"></span>
+        <span class="telemetry-label">ECG SYNC</span>
+        <div class="ecg-monitor">
+          <svg class="ecg-svg" viewBox="0 0 80 18" preserveAspectRatio="none">
+            <path class="ecg-line" d="M0,9 L18,9 L22,2 L26,16 L30,9 L38,9 L42,1 L46,17 L50,9 L80,9" />
+          </svg>
+        </div>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">TENSOR</span>
+        <span class="telemetry-code">24×1 · 91.96% Acc</span>
+      </div>
     </div>
 
     <div class="nav-right">

@@ -3193,3 +3193,365 @@ code {
     justify-content: space-between;
   }
 }
+
+/* ==========================================================================
+   Futuristic Cyber-Clinical & Neural HUD Styles
+   ========================================================================== */
+
+/* 1. Neural Particle Canvas */
+.neural-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="light"] .neural-canvas {
+  opacity: 0.32;
+}
+
+/* 2. Cyber Biometric ECG & Telemetry HUD */
+.nav-telemetry-hud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.telemetry-dot-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulseDot 1.6s infinite;
+}
+
+.telemetry-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.ecg-monitor {
+  width: 68px;
+  height: 18px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ecg-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ecg-line {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: ecgSweep 2.4s linear infinite;
+  filter: drop-shadow(0 0 4px #10b981);
+}
+
+@keyframes ecgSweep {
+  0% { stroke-dashoffset: 120; }
+  100% { stroke-dashoffset: -120; }
+}
+
+.telemetry-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-color);
+}
+
+.telemetry-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+
+/* 3. Voice Input Search & Status HUD */
+.voice-search-btn {
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 4px 6px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.voice-search-btn:hover {
+  transform: translateY(-50%) scale(1.15);
+  filter: drop-shadow(0 0 8px var(--brand-primary));
+}
+
+.voice-search-btn.is-listening {
+  background: rgba(239, 68, 68, 0.16);
+  filter: drop-shadow(0 0 10px #ef4444);
+  animation: micGlow 1s infinite alternate;
+}
+
+@keyframes micGlow {
+  from { transform: translateY(-50%) scale(1); }
+  to { transform: translateY(-50%) scale(1.25); }
+}
+
+.voice-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #ef4444;
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  animation: slideDown 0.25s ease;
+}
+
+.voice-wave-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+  animation: pulseDot 0.9s infinite;
+}
+
+/* 4. Laser Scanner Beam Overlay */
+.laser-scanner-track {
+  position: relative;
+  height: 3px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border-radius: var(--radius-full);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.laser-scanner-track.scanning {
+  opacity: 1;
+}
+
+.laser-scanner-beam {
+  position: absolute;
+  top: 0;
+  left: -35%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #06b6d4, #8b5cf6, transparent);
+  box-shadow: 0 0 12px #06b6d4, 0 0 24px #8b5cf6;
+  animation: scanBeam 1.8s ease-in-out infinite;
+}
+
+@keyframes scanBeam {
+  0% { left: -35%; }
+  100% { left: 100%; }
+}
+
+/* 5. Cyber Crosshair Corners on Cards */
+.symptom-card, .visual-card-glass, .primary-card, .live-ai-radar-card {
+  position: relative;
+}
+
+.card-crosshair {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  opacity: 0.3;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+.symptom-card:hover .card-crosshair,
+.tilt-card:hover .card-crosshair,
+.symptom-card.is-selected .card-crosshair {
+  opacity: 0.95;
+  border-color: var(--brand-primary);
+}
+
+.ch-tl {
+  top: 6px;
+  left: 6px;
+  border-top: 1.5px solid var(--brand-primary);
+  border-left: 1.5px solid var(--brand-primary);
+}
+
+.ch-tr {
+  top: 6px;
+  right: 6px;
+  border-top: 1.5px solid var(--brand-primary);
+  border-right: 1.5px solid var(--brand-primary);
+}
+
+.ch-bl {
+  bottom: 6px;
+  left: 6px;
+  border-bottom: 1.5px solid var(--brand-primary);
+  border-left: 1.5px solid var(--brand-primary);
+}
+
+.ch-br {
+  bottom: 6px;
+  right: 6px;
+  border-bottom: 1.5px solid var(--brand-primary);
+  border-right: 1.5px solid var(--brand-primary);
+}
+
+/* 6. 3D Tilt Perspective Cards */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* 7. Futuristic AI Neural Audio Briefing HUD Card */
+.ai-audio-briefing-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 24px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-audio-briefing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 12% 50%, rgba(6, 182, 212, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+.audio-briefing-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.audio-avatar {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--brand-light);
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.ai-orbit-pulse {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--brand-primary);
+  animation: rotateScan 10s linear infinite;
+  opacity: 0.65;
+}
+
+.audio-label-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--brand-primary);
+  margin-bottom: 3px;
+}
+
+.audio-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 3px;
+}
+
+.audio-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.audio-briefing-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.audio-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 22px;
+}
+
+.eq-bar {
+  width: 4px;
+  background: var(--brand-primary);
+  border-radius: 2px;
+  animation: eqBounce 0.85s ease-in-out infinite alternate;
+}
+
+.eq-bar:nth-child(1) { height: 35%; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { height: 80%; animation-delay: 0.35s; }
+.eq-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+.eq-bar:nth-child(4) { height: 55%; animation-delay: 0.45s; }
+.eq-bar:nth-child(5) { height: 90%; animation-delay: 0.25s; }
+
+@keyframes eqBounce {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+@media (max-width: 768px) {
+  .ai-audio-briefing-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .audio-briefing-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
